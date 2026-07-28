@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use LinkLore in research, please cite the paper below."
+title: "LinkLore"
+type: software
+authors:
+  - name: "LinkLore"
+    email: "support@linklore.io"
+    website: "https://linklore.io"
+repository-code: "https://github.com/linklore/linklore-mcp"
+url: "https://linklore.io"
+license: Elastic-2.0
+preferred-citation:
+  type: article
+  title: "When the Agent Is the User: Agent-Driven Evolution of AI-Native Tools"
+  authors:
+    - family-names: "Park"
+      given-names: "Younmi"
+  doi: "10.5281/zenodo.21216858"
+  year: 2026
