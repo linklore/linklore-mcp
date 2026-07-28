@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "llre": {
+      "command": "uvx",
+      "args": ["llre"]
+    }
+  }
+}

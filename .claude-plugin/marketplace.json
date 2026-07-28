@@ -1,0 +1,16 @@
+{
+  "name": "linklore-marketplace",
+  "description": "LinkLore — AI-native structured memory for agents (lore/doc) that AI agents read and write directly, via MCP.",
+  "owner": {
+    "name": "LinkLore",
+    "email": "support@linklore.io",
+    "url": "https://linklore.io"
+  },
+  "plugins": [
+    {
+      "name": "linklore",
+      "source": "./plugin",
+      "description": "AI-native structured memory for agents (lore/doc) for Claude Code — decisions, pitfalls, and specs that AI agents read and write directly."
+    }
+  ]
+}
