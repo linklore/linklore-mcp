@@ -21,8 +21,8 @@ MESSAGES: dict[str, str] = {
 
 
     "rule_tag_removed": (
-        "ℹ️ the #rule tag is retired — use status='rule' to mark a rule "
-        "(strength is level's job). removed it from the tags."
+        "ℹ️ the #rule tag is retired — use status='rule' to mark a rule. "
+        "removed it from the tags."
     ),
 
 

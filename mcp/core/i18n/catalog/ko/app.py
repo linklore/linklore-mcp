@@ -1,6 +1,17 @@
 """Korean (ko) messages for the 'app' surface."""
 MESSAGES: dict[str, str] = {
 
+
+    "instructions": (
+        "에이전트를 위한 AI-native 구조화 메모리 — lore(결정·함정·저널)와 doc(스펙·계획)을 "
+        "직접 읽고 쓰며, 코드 파일과 연결됩니다. "
+        "사람이 아니라 에이전트를 위해 만들어졌습니다 — 모든 도구는 사람이 읽기 좋으라고가 "
+        "아니라, AI가 실제로 잘 쓸 수 있도록 설계되었습니다. "
+        "매 세션 시작 시 brief()를 먼저 호출해 "
+        "미결 항목과 최근 활동을 확인하세요. 아직 설정 전이면 init()을 호출하세요. "
+        "전체 가이드: show(tag='guide')."
+    ),
+
     "err_generic": "오류: {name} 실패 — {err_type}: {err_msg}{hint}",
 
 

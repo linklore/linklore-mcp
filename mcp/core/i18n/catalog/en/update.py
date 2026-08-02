@@ -1,11 +1,11 @@
 """English (en) messages for the 'update' surface."""
 MESSAGES: dict[str, str] = {
 
+
     "tool_desc": (
         "status() — detects code↔doc sync drift (git-diff based). Not for reading lore/doc content → use show()/brief().\n"
         "\n"
-        "since, action(''|'ack'|'reset'), ack, reset, help.\n"
-        "(2026-07-09: the dead params auto=/sync= and ack_all= were removed — ack='all' does the same job, matching the reset='all' convention)"
+        "since, action(''|'ack'|'reset'), ack, reset, help."
     ),
 
     "help": (

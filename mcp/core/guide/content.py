@@ -1,5 +1,5 @@
 """Official guide content - source for seed packs and GUIDE.md."""
-GUIDE_VERSION = "2026.07.30.1"
+GUIDE_VERSION = "2026.08.03.1"
 
 ITEMS = [
 
@@ -133,7 +133,7 @@ ITEMS = [
             "`local(action, id, to='workspace-path')` operates on a sibling local `.linklore/` "
             "store on the same disk — three actions:\n\n"
             "- `local(action='move', id='lr-x', to='/path')` — relocate an item, preserving fields "
-            "like `createdAt`, `files`, `tags`, `level`, `status`, and body. The source is "
+            "like `createdAt`, `files`, `tags`, `status`, and body. The source is "
             "force-deleted, so it's a move, not a copy. For 2+ items it previews by default; call "
             "again with `confirm=True` to execute.\n"
             "- `local(action='copy', id='lr-x', to='/path')` — same fields preserved, but the "
@@ -177,7 +177,7 @@ ITEMS = [
             "| Record | `restore` | Recover from trash; no `id` lists the trash |\n"
             "| Record | `local` | Operate on a sibling local workspace — `action='move'\\|'copy'\\|'show'` "
             "(move/copy preserve fields; copy keeps the source) |\n"
-            "| Search | `show` | Query by id/text/tag/level/status/file/period/`source_id=`; "
+            "| Search | `show` | Query by id/query-text/tag/status/file/period/`source_id=`; "
             "`action='graph'`(corpus stats) or `action='tags'`(tag list) |\n"
             "| Search | `log` | Change history |\n"
             "| Link | `link` | Connect two items (lore↔lore, doc↔doc, doc↔lore) |\n"
@@ -216,7 +216,7 @@ ITEMS = [
         "key": "show-before-touch",
         "title": "Check show(file=...) before touching a file",
         "body": (
-            "Before changing code, search `show(file='path')` (or `tag=`/`query=`/`level=`) for "
+            "Before changing code, search `show(file='path')` (or `tag=`/`query=`/`status=`) for "
             "decisions or pitfalls already tied to the area you're about to edit. Reading this first "
             "avoids repeating a mistake someone — or a previous session — already made and recorded."
         ),
@@ -342,7 +342,7 @@ ITEMS = [
         "body": (
             "`local(action='move'|'copy', id, to='workspace-path')` moves or copies a lore/doc "
             "between your own local `.linklore/` stores, preserving fields like `createdAt`, "
-            "`files`, `tags`, `level`, `status`, and body. `action='move'` force-deletes the "
+            "`files`, `tags`, `status`, and body. `action='move'` force-deletes the "
             "source and preserves the id; `action='copy'` keeps the source and issues a new id — "
             "both record provenance (source project + original id), and re-copying the same "
             "original is an idempotent skip. Neither talks to a server "

@@ -2,7 +2,7 @@
 MESSAGES: dict[str, str] = {
 
     "tool_desc": (
-        "[read-only] project dashboard — call at the start of every session.\n"
+        "project dashboard — call at the start of every session.\n"
         "\n"
         "external source 🔔 = a new push has arrived. receive it with openbox(action='show').\n"
         "options: dismiss(turn off a nudge), undismiss(restore it), help."

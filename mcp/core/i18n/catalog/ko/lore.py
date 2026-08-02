@@ -21,7 +21,7 @@ MESSAGES: dict[str, str] = {
 
 
     "rule_tag_removed": (
-        "ℹ️ #rule 태그는 폐지됨 — 규칙 지정은 status='rule' 이 정본 (강/약은 level). "
+        "ℹ️ #rule 태그는 폐지됨 — 규칙 지정은 status='rule' 이 정본. "
         "태그에서 제외했습니다."
     ),
 

@@ -1,7 +1,7 @@
 """English (en) messages for the 'report' surface."""
 MESSAGES: dict[str, str] = {
     "tool_desc": (
-        "report(msg) — send feedback/a bug straight to the team. Works whether or not "
+        "report(msg) — send feedback/a bug straight to the LinkLore team. Works whether or not "
         "you're logged in (if logged in, your iam is attached automatically — never forced)."
     ),
     "help": (

@@ -3,13 +3,17 @@ MESSAGES: dict[str, str] = {
 
 
     "tool_desc": (
-        "[read-only] show() — 대상/범위: query·type / 필터: tag·level·status·file·period('Nh'시간|'Nd'일|'YYYY-MM-DD' UTC)·source_id / "
+        "[read-only] show() — 대상/범위: query·type / 필터: tag·status·file·period('Nh'시간|'Nd'일|'YYYY-MM-DD' UTC)·source_id / "
         "결과형태: sort·max·oneline·superseded / 모드: action / 배관: help. "
         "코드 편집 전엔 file=경로 로 관련 lore/doc 확인 권장 — 직접 편집 시 PreToolUse 훅이 자동 서빙하지만 위임 전엔 직접 확인 필요. "
         "show/rm은 내 프로젝트 안에서만 논다 — 오픈박스 조회는 openbox(action='show')"
     ),
 
-    "log_tool_desc": "[read-only] log() id, period('Nh'시간|'Nd'일|'YYYY-MM-DD' UTC), sort=oldest, max, 배관: help",
+    "log_tool_desc": (
+        "[read-only] log(id) — 변경 이력(누가 언제 뭘) 조회. id 없으면 프로젝트 전체 이력. "
+        "현재 내용은 show(), 코드↔doc 드리프트는 status(). "
+        "period('Nh'시간|'Nd'일|'YYYY-MM-DD' UTC), sort=oldest, max, 배관: help"
+    ),
 
     "help": (
         "show — 통합 조회 (내 프로젝트 전용 — 오픈박스 조회는 openbox(action='show'))\n\n"
@@ -19,8 +23,8 @@ MESSAGES: dict[str, str] = {
         "  query=텍스트 → 통합 검색 (lore+doc)\n"
         "  type=컬렉션 → 목록 (lore/doc)\n"
         "  (없음) → lore 목록 (자기 + auto_search 외부 openbox 머지)\n\n"
-        "## 필터 (tag, level, status, file, period, source_id)\n"
-        "  tag, level(≥N), status(open/done/dropped/rule)\n"
+        "## 필터 (tag, status, file, period, source_id)\n"
+        "  tag, status(open/done/dropped/rule)\n"
         "  file(경로 매칭, files[] 인덱스 기준) — 코드 편집 전 확인 권장. 직접 Edit/Write 시엔 PreToolUse 훅이 자동 서빙하지만,\n"
         "    위임 전이나 조사 단계엔 직접 호출 필요. files[] 미등록 lore는 놓침 — 더 넓게 잡으려면 query=텍스트 병행\n"
         "  source_id — 반입 원본 id 역조회 (openbox('pull')·local copy/move — '이 항목 이미 가져왔나' 확인)\n"
@@ -60,7 +64,7 @@ MESSAGES: dict[str, str] = {
 
     "overview": (
         "{lore_part}\n"
-        "  ↳ 좁히기: show(tag='...') · show(level=3) · show(query='검색어')\n\n"
+        "  ↳ 좁히기: show(tag='...') · show(status='done') · show(query='검색어')\n\n"
         "{doc_part}\n"
         "  ↳ 좁히기: show(type='doc', tag='...')"
     ),
@@ -73,7 +77,7 @@ MESSAGES: dict[str, str] = {
     "graph_body_len_line": "  body 길이: 중앙값 {median}자 · 평균 {mean}자 · 1500자+ {over}건({pct}%)",
     "graph_linkgraph_line": "  링크그래프: {nodes}개 노드, {edges}개 엣지, 컴포넌트 {components}개 (최대 {top})",
     "graph_doc_summary": "doc: {total} live (supersede·휴지통 제외)",
-    "graph_footer": "→ 상세: show(tag=, status=, level=, sort=, max=) · 전수는 max 크게",
+    "graph_footer": "→ 상세: show(tag=, status=, sort=, max=) · 전수는 max 크게",
 
     "tags_none_no_store": "태그 없음 (아직 기억 없음)",
     "tags_none": "태그 없음",
@@ -81,11 +85,6 @@ MESSAGES: dict[str, str] = {
     "tags_count_lore": "lore {n}",
     "tags_count_doc": "doc {n}",
     "tags_line": "- #{tag} ({counts})",
-
-    "doc_no_level": (
-        "doc엔 level 없음 — level은 lore 전용입니다. "
-        "doc 진행은 items(체크리스트)·status 로 (show(type='doc', status='done'))"
-    ),
 
     "lore_none": "등록된 lore가 없습니다.",
     "lore_filtered_none": "조건에 맞는 lore가 없습니다. 전체 {total}건.",

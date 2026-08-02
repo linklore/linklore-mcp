@@ -2,6 +2,17 @@
 MESSAGES: dict[str, str] = {
 
 
+    "instructions": (
+        "AI-native structured memory for agents — lore (decisions, pitfalls, journal) "
+        "and doc (specs, plans) that you read and write directly, linked to code files. "
+        "Built for agents, not humans — every tool here is designed for usability by an "
+        "AI, not readability for a person. "
+        "Call brief() first in every session for a dashboard of open items and recent "
+        "activity. Not set up yet? Call init(). Full self-contained guide: "
+        "show(tag='guide')."
+    ),
+
+
     "err_generic": "error: {name} failed — {err_type}: {err_msg}{hint}",
 
 

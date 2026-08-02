@@ -4,6 +4,8 @@
 
 AI agents record decisions, pitfalls, and specs as they work — and recall them next session with code context attached (file links, stale detection, bidirectional links). Local-first: everything lives in a `.linklore/` SQLite store in your project.
 
+**Built for agents, not humans** — every tool here is designed for usability by an AI, not readability for a person.
+
 - **[`mcp/`](./mcp)** — the readable portion of the MCP server source (PyPI: [`llre`](https://pypi.org/project/llre/), run with `uvx llre`)
 - **[`plugin/`](./plugin)** — Claude Code plugin wrapper
 

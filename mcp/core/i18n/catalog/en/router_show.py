@@ -3,13 +3,18 @@ MESSAGES: dict[str, str] = {
 
 
     "tool_desc": (
-        "[read-only] show() — target/scope: query·type / filters: tag·level·status·file·period('Nh' hours|'Nd' days|'YYYY-MM-DD' UTC)·source_id / "
+        "[read-only] show() — target/scope: query·type / filters: tag·status·file·period('Nh' hours|'Nd' days|'YYYY-MM-DD' UTC)·source_id / "
         "result shape: sort·max·oneline·superseded / mode: action / plumbing: help. "
         "Before editing code, check file=path for related lore/doc — a direct Edit/Write auto-surfaces this via a PreToolUse hook, but check it yourself before delegating. "
         "show/rm stay inside my own project — to browse an openbox, use openbox(action='show')"
     ),
 
-    "log_tool_desc": "[read-only] log() id, period('Nh' hours|'Nd' days|'YYYY-MM-DD' UTC), sort=oldest, max, plumbing: help",
+    "log_tool_desc": (
+        "[read-only] log(id) — shows the edit-history timeline (who changed what, when). "
+        "No id = project-wide history. For current content use show(); for code<->doc "
+        "drift use status(). "
+        "period('Nh' hours|'Nd' days|'YYYY-MM-DD' UTC), sort=oldest, max, plumbing: help"
+    ),
 
     "help": (
         "show — unified query (my own project only — to browse an openbox, use openbox(action='show'))\n\n"
@@ -19,8 +24,8 @@ MESSAGES: dict[str, str] = {
         "  query=text → unified search (lore+doc)\n"
         "  type=collection → listing (lore/doc)\n"
         "  (none) → lore listing (self + auto_search external openbox merged)\n\n"
-        "## Filters (tag, level, status, file, period, source_id)\n"
-        "  tag, level(>=N), status(open/done/dropped/rule)\n"
+        "## Filters (tag, status, file, period, source_id)\n"
+        "  tag, status(open/done/dropped/rule)\n"
         "  file(path match, against the files[] index) — check before editing code. A direct Edit/Write auto-surfaces\n"
         "    this via a PreToolUse hook, but delegating or investigating first still needs an explicit call. Lore never\n"
         "    added to files[] gets missed — pair with query=text for broader recall\n"
@@ -61,7 +66,7 @@ MESSAGES: dict[str, str] = {
 
     "overview": (
         "{lore_part}\n"
-        "  ↳ narrow down: show(tag='...') · show(level=3) · show(query='search text')\n\n"
+        "  ↳ narrow down: show(tag='...') · show(status='done') · show(query='search text')\n\n"
         "{doc_part}\n"
         "  ↳ narrow down: show(type='doc', tag='...')"
     ),
@@ -74,7 +79,7 @@ MESSAGES: dict[str, str] = {
     "graph_body_len_line": "  body length: median {median} chars · mean {mean} chars · 1500+ chars {over}({pct}%)",
     "graph_linkgraph_line": "  link graph: {nodes} nodes, {edges} edges, {components} components (largest {top})",
     "graph_doc_summary": "doc: {total} live (excl. superseded/trash)",
-    "graph_footer": "→ detail: show(tag=, status=, level=, sort=, max=) · use a large max for everything",
+    "graph_footer": "→ detail: show(tag=, status=, sort=, max=) · use a large max for everything",
 
     "tags_none_no_store": "no tags (no memory yet)",
     "tags_none": "no tags",
@@ -82,11 +87,6 @@ MESSAGES: dict[str, str] = {
     "tags_count_lore": "lore {n}",
     "tags_count_doc": "doc {n}",
     "tags_line": "- #{tag} ({counts})",
-
-    "doc_no_level": (
-        "doc has no level — level is lore-only. "
-        "track doc progress with items(checklist)·status (show(type='doc', status='done'))"
-    ),
 
     "lore_none": "no lore registered.",
     "lore_filtered_none": "no lore matches the filter. {total} total.",

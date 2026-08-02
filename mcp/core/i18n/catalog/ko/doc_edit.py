@@ -9,7 +9,7 @@ MESSAGES: dict[str, str] = {
 
 
     "rule_tag_removed": (
-        "ℹ️ #rule 태그는 폐지됨 — 규칙 지정은 status='rule' 이 정본 (강/약은 level). "
+        "ℹ️ #rule 태그는 폐지됨 — 규칙 지정은 status='rule' 이 정본. "
         "태그에서 제외했습니다."
     ),
 
@@ -172,7 +172,7 @@ MESSAGES: dict[str, str] = {
         "doc_edit_batch — 여러 doc 한 번에 수정\n\n"
         "  edits: JSON 배열 또는 list [{{id, action, items, title, tags, links, flow, status}}, ...]\n"
         '  links: 통합 (파일·dc/lr id·제목 자동분류) · flow:true → 문서 여정 체인 · links:"-" → 연결 전체 해제\n\n'
-        "items 문법 (doc_edit과 동일):\n"
+        "items 문법 (doc_edit과 동일, v4):\n"
         '  ["a", "b", "c"]           → 추가 (append, 기본·비파괴)\n'
         '  ["a","b"] + "overwrite":true → 전체 교체\n'
         '  [1, 3]                   → 토글 (int 리스트, 1-based)\n'

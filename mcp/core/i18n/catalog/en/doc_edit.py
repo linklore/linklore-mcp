@@ -9,8 +9,8 @@ MESSAGES: dict[str, str] = {
 
 
     "rule_tag_removed": (
-        "ℹ️ the #rule tag is retired — use status='rule' to mark a rule "
-        "(strength is level's job). removed it from the tags."
+        "ℹ️ the #rule tag is retired — use status='rule' to mark a rule. "
+        "removed it from the tags."
     ),
 
 
@@ -175,7 +175,7 @@ MESSAGES: dict[str, str] = {
         "doc_edit_batch — edit multiple docs at once\n\n"
         "  edits: JSON array or list [{{id, action, items, title, tags, links, flow, status}}, ...]\n"
         '  links: unified (files·dc/lr id·title auto-classified) · flow:true → doc journey chain · links:"-" → clear all links\n\n'
-        "items syntax (same as doc_edit):\n"
+        "items syntax (same as doc_edit, v4):\n"
         '  ["a", "b", "c"]           → append (default, non-destructive)\n'
         '  ["a","b"] + "overwrite":true → full replace\n'
         '  [1, 3]                   → toggle (int list, 1-based)\n'

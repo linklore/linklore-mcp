@@ -1,11 +1,11 @@
 """Korean (ko) messages for the 'update' surface."""
 MESSAGES: dict[str, str] = {
 
+
     "tool_desc": (
         "status() — 코드↔doc 동기화 감지 (git diff 기반). lore/doc 내용 조회 아님 → show()·brief().\n"
         "\n"
-        "since, action(''|'ack'|'reset'), ack, reset, help.\n"
-        "(2026-07-09: auto=/sync= 죽은 파라미터·ack_all= 제거 — ack='all' 이 동일 역할, reset='all' 과 관례 통일)"
+        "since, action(''|'ack'|'reset'), ack, reset, help."
     ),
 
     "help": (

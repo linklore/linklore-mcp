@@ -9,8 +9,8 @@ LinkLore is a memory layer that AI agents read and write directly — not a pass
 docs folder. It stores two kinds of items in a local `.linklore/` store (SQLite,
 no account required):
 
-- **lore** (`lr-` ids) — decisions, pitfalls, fixes, local rules. Has a `level`
-  (1-4 importance) and a `status` (`open`/`done`).
+- **lore** (`lr-` ids) — decisions, pitfalls, fixes, local rules. Has a
+  `status` (`open`/`done`/`rule`).
 - **doc** (`dc-` ids) — specs, system documentation, checklists/catalogs via
   `items`.
 
@@ -26,12 +26,12 @@ skill and the bundled MCP server work fully offline without it.
 1. **Start of session — call `brief`.** It returns open items, recent
    activity, and hotspots in a few hundred tokens. Do this before reading
    the codebase at large; it's the cheapest way to load context.
-2. **Before changing code — call `show`.** Search by `file=`, `text=`,
-   `tag=`, or `level=` to find decisions or pitfalls tied to the area
+2. **Before changing code — call `show`.** Search by `file=`, `query=`,
+   `tag=`, or `status=` to find decisions or pitfalls tied to the area
    you're about to touch. Reading this first avoids repeating a mistake
    someone (or a previous session) already made.
 3. **While working — call `add` or `edit`.**
-   - After a decision, bug fix, or pitfall: `add(type='lore', level=2..3,
+   - After a decision, bug fix, or pitfall: `add(type='lore',
      status='done')` to leave a regression guard for future sessions.
    - For a new system or feature: prefer `add(type='doc', ...)` over
      writing a standalone `.md` file — LinkLore docs get automatic
