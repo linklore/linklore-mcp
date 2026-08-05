@@ -93,10 +93,10 @@ def _save_json(path: Path, data):
 
 
 @contextmanager
-def _rmw_lock(path: Path):
-    path.parent.mkdir(parents=True, exist_ok=True)
-    lock_path = str(path) + ".rmw.lock"
-    with open(lock_path, "w", encoding="utf-8") as lock_fd:
+def _rmw_lock(path: Path, lock_path: Path | None = None):
+    target = Path(lock_path) if lock_path is not None else Path(str(path) + ".rmw.lock")
+    target.parent.mkdir(parents=True, exist_ok=True)
+    with open(str(target), "w", encoding="utf-8") as lock_fd:
         _flock_ex(lock_fd)
         try:
             yield

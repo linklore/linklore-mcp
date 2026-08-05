@@ -7,6 +7,10 @@ MESSAGES: dict[str, str] = {
     "err_no_id": "error: enter an ID.",
     "err_not_found_empty": "'{id}' not found - this project has no memory yet.",
     "err_not_found": "error: '{id}' not found.",
+
+
+    "id_didyoumean_item": "show(query='{id}')  # {title}",
+    "id_didyoumean_suffix": " did you mean: {items}",
     "hint_token": "'{term}' {count} hits",
     "common_word_hint": "note: common words filled up the matches - {parts} appear a lot. Add 1-2 more distinctive words to narrow it down.\n\n",
     "no_exact_match_suggestions": "no exact match for '{query}'. suggestions by relevance:",

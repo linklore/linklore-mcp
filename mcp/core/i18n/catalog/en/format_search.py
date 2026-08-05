@@ -26,18 +26,7 @@ MESSAGES: dict[str, str] = {
     "doc_files_bracket": " [{files}]",
     "no_match_footer": "no matches — try different keywords.",
     "resolved_hint_footer": 'to include resolved (dropped/replaced) lore, use status="dropped".',
-    "topic_current_state_doc": "see doc **{name}** (most recent summary doc)",
-    "topic_current_state_lore": "{first_line} [{id}]",
-    "topic_header": "# {query} — topic",
-    "topic_state_line": "> **current state:** {state}",
-    "topic_count_lore": "{count} lore matched",
-    "topic_count_doc": "{count} doc",
-    "topic_doc_section_header": "## doc (current state)",
-    "topic_doc_title": "### [{cat}] {name}",
-    "topic_related_docs_header": "**related docs:**",
-    "topic_related_doc_item": "- [{cat}] {name}",
-    "topic_timeline_header": "## timeline (history)",
-    "topic_no_date": "(no date)",
-    "topic_date_header": "\n### {date}",
-    "topic_body_more": "  ... (+{count} lines)",
+
+
+    "broad_query_time_hint": "\n  chronological view: show(query='{query}', sort='oldest')",
 }

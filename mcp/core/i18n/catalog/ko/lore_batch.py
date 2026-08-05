@@ -5,6 +5,9 @@ MESSAGES: dict[str, str] = {
     "err_edits_invalid_json": "오류: batch가 유효한 JSON 배열이 아닙니다.",
     "err_edits_not_array": "오류: batch가 JSON 배열이어야 합니다.",
 
+
+    "err_action_unsupported": "{lid}: action='{action}' 은 배치에서 미지원 — overwrite만 가능(append는 기본값)",
+
     "link_post_failed": "  ⚠️ link({a}↔{b}) 실패: {res}",
 
     "batch_summary": "{success}/{total}건",

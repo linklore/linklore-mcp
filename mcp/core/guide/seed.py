@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import hashlib
+import importlib
 from pathlib import Path
 
 from core.base.dateutil import now_iso
@@ -20,6 +21,19 @@ from core.sync.remote import (
 SOURCE_NAME = "linklore-guide"
 _GUIDE_PID = "linklore-guide"
 _GUIDE_PATH = f"local://{_GUIDE_PID}"
+
+
+def _load_guide_content():
+    from core.i18n import _lang
+    lang = _lang()
+    if lang != "en":
+        try:
+            mod = importlib.import_module(f"core.guide.content_{lang}")
+            return mod.GUIDE_VERSION, mod.ITEMS
+        except ModuleNotFoundError:
+            pass
+    from core.guide.content_en import GUIDE_VERSION, ITEMS
+    return GUIDE_VERSION, ITEMS
 
 
 def _item_id(key: str, kind: str) -> str:
@@ -84,7 +98,7 @@ def _ensure_registry_entry(data_dir: Path) -> None:
 
 def install_guide_source(data_dir: Path) -> str:
     try:
-        from core.guide.content import GUIDE_VERSION, ITEMS
+        GUIDE_VERSION, ITEMS = _load_guide_content()
 
         lore_items, doc_items = _build_items(ITEMS)
         _write_mirror(data_dir, lore_items, doc_items, GUIDE_VERSION)
@@ -103,7 +117,7 @@ def refresh_guide_source(data_dir: Path) -> str | None:
         if not meta:
             return None
 
-        from core.guide.content import GUIDE_VERSION, ITEMS
+        GUIDE_VERSION, ITEMS = _load_guide_content()
 
         if meta.get("guide_version") == GUIDE_VERSION:
             return None

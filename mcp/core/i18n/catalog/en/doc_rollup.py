@@ -1,7 +1,7 @@
 """English (en) messages for the 'doc_rollup' surface."""
 MESSAGES: dict[str, str] = {
 
-    "tool_desc": "[read-only] doc_rollup(id) — collects lore linked to a doc into an AI-summary draft.",
+    "tool_desc": "[read-only] doc_rollup(id) — find and collect lore linked to a doc into an AI-summary draft.",
 
     "help": (
         "doc_rollup — collect linked lore → markdown for AI summarization\n\n"

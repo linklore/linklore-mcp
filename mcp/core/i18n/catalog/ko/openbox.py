@@ -122,16 +122,15 @@ MESSAGES: dict[str, str] = {
 
     "rm_member_help": (
         "openbox(name='<박스>', action='rm', member='<닉네임 또는 이메일>')\n"
-        "  owner 가 멤버 추방. token revoke. 2단계 확인\n"
-        "  (1차 응답이 주는 번호를 openbox(confirm=<번호>) 단독으로 재호출하면 실행).\n"
+        "  owner 가 멤버 추방. token revoke. 비가역 — 1차 응답이 그대로 인쇄하는\n"
+        "  forced(action='openbox', rm_member=..., pid=...) 재호출로만 실행.\n"
         "  추방된 멤버의 lore 데이터는 박스에 그대로 남음 (a 옵션).\n"
         "  member= 는 리스트도 허용(벌크) — 건별 결과 따로 보고, 부분 실패해도 전체 롤백 아님."
     ),
     "rm_member_desc": "멤버 추방 — {name}: {members}",
     "rm_member_confirm": (
         "⚠️ [{name}] 멤버 추방: {members} — token revoke(lore 데이터는 잔존).\n"
-        "  1. 실행: openbox(confirm={slot})\n"
-        "  2. 취소: 아무것도 안 함 (15분 후 소멸)"
+        "  실행: forced(action='openbox', rm_member={ids}, pid='{prj_id}')\n"
     ),
     "remove_err_failed": "오류: 멤버 제거 실패 ({code}) — {resp}",
     "remove_done": "[{name}] 멤버 {member_id} 추방 — token revoke. lore 데이터는 잔존.",
@@ -203,6 +202,9 @@ MESSAGES: dict[str, str] = {
     "err_generic": "오류: {error}",
 
 
+    "err_max": "오류: {err}",
+
+
     "register_err_url_not_ascii": (
         "오류: url 에 비ASCII 문자가 있음 — 박스 주소를 그대로 복사해 다시 시도\n"
         "  (백엔드 주소는 ASCII 전용, 예: https://api.linklore.io/api/projects/<pid>)"
@@ -236,15 +238,14 @@ MESSAGES: dict[str, str] = {
 
     "transfer_help": (
         "openbox(name='<박스>', action='transfer', member='<새 owner 닉네임 또는 이메일>')\n"
-        "  owner 권한 이전. 본인은 member 로 강등. 2단계 확인\n"
-        "  (1차 응답이 주는 번호를 openbox(confirm=<번호>) 단독으로 재호출하면 실행)."
+        "  owner 권한 이전. 본인은 member 로 강등. 비가역 — 1차 응답이 그대로 인쇄하는\n"
+        "  forced(action='openbox', transfer=..., pid=...) 재호출로만 실행."
     ),
     "transfer_desc": "owner 이전 — {name} → {member}",
     "transfer_confirm": (
         "⚠️ [{name}] owner를 {member_id}로 이전 — 본인은 member로 강등되고 되돌리려면\n"
         "  새 owner가 다시 이전해야 합니다.\n"
-        "  1. 실행: openbox(confirm={slot})\n"
-        "  2. 취소: 아무것도 안 함 (15분 후 소멸)"
+        "  실행: forced(action='openbox', transfer='{resolved}', pid='{prj_id}')\n"
     ),
     "transfer_err_failed": "오류: transfer 실패 ({code}) — {resp}",
     "transfer_done": "[{name}] owner → member ({member_id})\n  본인은 이제 member.",
@@ -259,14 +260,13 @@ MESSAGES: dict[str, str] = {
     "leave_desc": "탈퇴 — {name}",
     "leave_confirm": (
         "⚠️ '{name}' 오픈박스에서 나가시겠어요? 재초대 전엔 되돌릴 수 없습니다.\n"
-        "  1. 실행: openbox(confirm={slot})\n"
-        "  2. 취소: 아무것도 안 함 (15분 후 소멸)"
+        "  실행: forced(action='openbox', leave='{prj_id}')\n"
     ),
     "leave_confirm_owner_hint": (
         "⚠️ '{name}' 오픈박스에서 나가시겠어요? 재초대 전엔 되돌릴 수 없습니다.\n"
         "  ℹ️ 로컬 기록상 당신이 이 박스의 owner로 보입니다 — 맞다면 서버가 거부합니다(owner 탈퇴 불가,\n"
         "     이미 이전했다면 로컬 기록이 오래된 것일 수 있으니 무시하세요).\n"
-        "  1. 그래도 시도: openbox(confirm={slot})\n"
+        "  1. 그래도 시도: forced(action='openbox', leave='{prj_id}')\n"
         "  2. 대안(owner라면 이게 정답): openbox(name='{name}', action='transfer', member='<새 owner 닉네임>')"
     ),
     "leave_err_owner_409": (
@@ -284,7 +284,7 @@ MESSAGES: dict[str, str] = {
     "push_preview_header": "[{name}] push 미리보기 — {count}건 (아직 전송 안 됨)",
     "push_preview_missing": "  ⚠️ 본진에 없음: {ids}",
     "push_desc": "push {count}건 — {name}",
-    "push_preview_confirm": "  1. 실행: openbox(confirm={slot})\n  2. 취소: 아무것도 안 함 (15분 후 소멸)",
+    "push_forced_hint": "  실행: forced(action='openbox', push={ids}, pid='{pid}')",
     "pull_err_no_id": "오류: id= 필수 — 가져올 발자취 id. 훑기·캐시 갱신만은 openbox(name='{name}', action='show')",
     "pull_header": "[{name}] pull {count}건 — 본진에 새 id 로 흡수 (출처 메타 유지)",
     "pull_more": "  ... 외 {count}건",
@@ -299,31 +299,10 @@ MESSAGES: dict[str, str] = {
     "rm_err_no_args": "오류: id= 또는 member= 필수 — id= 는 공유한 것 회수, member= 는 멤버 제거 (정확히 하나)",
     "rm_err_both_args": "오류: id= 와 member= 를 동시에 줄 수 없음 — id= 는 공유한 것 회수, member= 는 멤버 제거 (정확히 하나)",
 
-
-    "tool_desc": (
-        "openbox(name, action) — 소유자 벽: 다른 소유자와의 교류(공유·가져오기·멤버십)는 전부 이 문패 하나로. "
-        "오픈박스 = 초대제 공유 박스. 내 서버 백업은 push()/pull() (타깃 인자 없음 — 벽 안 넘음).\n"
-        "\n"
-        "운반:\n"
-        "- openbox(name='team-prj', action='push', id='lr-x')     발자취를 박스에 공유 — 사본 전송, 본진 무변. 다건(id 2+)은 미리보기 후 confirm=True 재호출\n"
-        "- openbox(name='team-prj', action='pull', id='lr-x')     박스의 발자취를 본진에 흡수 — 새 id + 출처 메타\n"
-        "- openbox(name='team-prj', action='rm', id='lr-x')       내가 공유한 발자취를 박스에서 삭제 (본진 무변)\n"
-        "조회:\n"
-        "- openbox(name='team-prj', action='show', query='인증')   박스 훑기 — 호출 시 캐시 자동 갱신 (필터: query·tag·max·oneline)\n"
-        "거버넌스:\n"
-        "- openbox(name='team-prj', action='new', display_name='나')         박스 생성 (나=owner)\n"
-        "- openbox(name='team-prj', action='edit', description='...')        박스 설명 수정 (owner/member) · title=박스명(owner 전용) · display_name=내 닉네임(누구나)\n"
-        "- openbox(name='team-prj', action='invite', role='member')          초대 코드 (owner). kind='project'=프로젝트 멤버, member='<닉네임>'=재발급\n"
-        "- openbox(action='join', code='X', display_name='나')  초대 코드로 가입 (박스 이름은 서버 project name 그대로)\n"
-        "- openbox(name='team-prj', action='docking')                        멤버십을 이름으로 이 프로젝트에 배선 — 동명 2+는 후보+project_id='prj-...' 확정. project-kind는 docking 불가\n"
-        "- openbox(name='team-prj', action='undocking')                      이 프로젝트의 배선만 제거 — 서버 멤버십 무변 (탈퇴는 leave)\n"
-        "- 'list' 멤버 목록 · 'role' member=+role= · 'transfer' member= (2회 확인) · 'leave' (2회 확인) · 'rm' member='<닉네임/이메일>' 로 멤버 추방(owner) · 'delete' 통째 삭제 (owner, 2회 확인)\n"
-        "(멤버 지칭 member= 는 닉네임 또는 이메일 — id 없음. 액션 문법: 지속 연결 절차형=-ing(docking/undocking), 즉발형=동사원형. rm(id=)=공유 회수, rm(member=)=멤버 추방 — 정확히 하나)\n"
-    ),
     "help": (
         "openbox(name, action) — 소유자 벽 (오픈박스 = 초대제 공유 박스)\n"
         "운반·조회:\n"
-        "  push      openbox(name='team-prj', action='push', id='lr-x')             박스에 공유 (사본, 본진 무변; 다건은 미리보기→confirm=True)\n"
+        "  push      openbox(name='team-prj', action='push', id='lr-x')             박스에 공유 (사본, 본진 무변; 다건은 미리보기→forced(action='openbox', push=...))\n"
         "  pull      openbox(name='team-prj', action='pull', id='lr-x')             본진에 흡수 (새 id + 출처 메타)\n"
         "  rm        openbox(name='team-prj', action='rm', id='lr-x')               공유한 것 삭제 — 또는 action='rm', member='<닉네임/이메일>' 로 멤버 추방(owner). id=/member= 중 정확히 하나\n"
         "  show      openbox(name='team-prj', action='show', query='인증')           훑기 (캐시 자동 갱신; 필터 query·tag·max·oneline)\n"

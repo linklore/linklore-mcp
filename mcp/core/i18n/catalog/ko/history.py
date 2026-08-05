@@ -19,5 +19,11 @@ MESSAGES: dict[str, str] = {
     "doc_history_header": "# doc/{id} 변경 이력 ({n}개)",
 
     "no_history_at_all": "이력 없음.",
+
+
+    "no_history_max_zero": "표시 0건 (max=0 지정됨, 실제 이력 {total}개 존재 — max를 늘리세요).",
     "unified_header": "# 프로젝트 이력 ({n}개)",
+
+
+    "log_max_clamped_hint": "\n  … 전체 {total}건 중 {shown}건 표시(서버 상한 {cap}) — 더 보려면 log(id=...)로 개별 조회하거나 period=로 좁히세요",
 }

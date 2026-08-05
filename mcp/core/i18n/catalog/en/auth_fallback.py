@@ -12,6 +12,13 @@ MESSAGES: dict[str, str] = {
     ),
 
 
+    "box_access_denied_viewer": (
+        "box '{name}' — you're a member, but your role (VIEWER) lacks write access "
+        "(push/send denied). Ask the box owner to upgrade your role: "
+        "openbox(name='{name}', action='role', member='<member_id>', role='member')"
+    ),
+
+
     "heal_project_reinvite": (
         "error: the project iam was rejected (401) — its session may have been rotated or revoked.\n"
         "  a browser re-login will not fix this (the project iam outranks the account).\n"

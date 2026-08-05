@@ -18,5 +18,12 @@ MESSAGES: dict[str, str] = {
 
     "err_session_expired": "세션 만료(401) — 재로그인: uvx llre login",
 
+
+    "err_not_found_on_server": (
+        "오픈박스 '{name}'이(가) 서버에서 사라졌습니다(owner가 삭제했거나 stale 메타). "
+        "캐시된 사본은 그대로 남아있습니다. 로컬 등록을 지우려면 "
+        "openbox(name='{name}', action='undocking') 실행."
+    ),
+
     "revoked": "remote/{pid}/ revoked — 게시 철회됨, 비움",
 }

@@ -1,23 +1,6 @@
 """Korean (ko) messages for the 'router_edit' surface."""
 MESSAGES: dict[str, str] = {
 
-
-    "tool_desc": (
-        "edit(id, action=, ...) — 쓰기 방식 4갈래(action). action 생략 시 기본 append(msg만 줘도 동일).\n\n"
-        "쓰기 방식 (action, 도구 옵션 = 동작 일치):\n"
-        "- **append (기본, 비파괴)** → edit(id, action='append', msg='추가내용')   # 또는 action 생략, msg만 — body 끝에 append, 기존 보존\n"
-        "- **section (부분 수정)**   → edit(id, action='section', section='헤딩', msg='새 섹션 내용')  # 그 섹션만 통째 교체(기존 헤딩 전용 — 없으면 에러, 새 섹션 추가는 append), 나머지 보존\n"
-        "- **overwrite (전체 교체)** → edit(id, action='overwrite', msg='새 본문' [, tags=[...], ...])  # 옛 body→history 보존(log로 복구). tags/items(doc 전용)/links 도 같은 콜에서 전체교체됨\n"
-        "- **supersede (후속 발행)** → edit(id, action='supersede', msg='새 결론')  # 새 id 생성, 옛 것 head=False\n\n"
-        "(action= 는 append|section|overwrite|supersede|remove 중 하나. 미지정('')이면 append.)\n\n"
-        "기타:\n"
-        "- 체크리스트 제거(doc 전용) → edit(id, action='remove', items=[N])  # 1-based, 여러개는 items=[N,M]\n"
-        "- 폐기 표시      → edit(id, status='dropped')  (검색 시 보임)\n"
-        "- supersede chain (옛 보존 + 새 head) → edit(id, action='supersede', ...)  (또는 add(type='lore'|'doc', relates=old_id, ...))\n"
-        "- supersede by 기존 (모순 reconcile)  → link(a=X, b='lr-Y'|'dc-Y', action='supersede')  (X→head=False)\n"
-        "- 완전 삭제      → rm(id)\n"
-    ),
-
     "help": (
         "edit — 엔티티 수정 (ID prefix 자동)\n\n"
         "## 인자 형식 (중요)\n"
@@ -57,7 +40,8 @@ MESSAGES: dict[str, str] = {
         "  연결 해제(파일 1개·id 1개)는 unlink(a, 대상) — links='-' 일괄해제는 제거됨\n"
         "    (unlink() 반복과 동일 연산이라 실증수요 없어 보류)\n"
         "## status (lore/doc 공통) — 딱지 (검색에 계속 뜸)\n"
-        "  open | done | dropped | rule(바뀌지 않는 기준) (또는 'clear' = open 복귀). 그 외 값은 거부.\n"
+        "  open | done | dropped | rule(바뀌지 않는 기준) (또는 'clear' = open 복귀). "
+        "그 외 값은 — status 단독 변경이면 거부, 다른 변경(msg 등) 동반이면 그 변경만 반영되고 status 는 스킵(기존값 유지)+경고.\n"
         "  ★ 정리 형태 구분 (헷갈리기 쉬움):\n"
         "     done                     = 끝난 유효 지식      → 검색에 뜸 (완료 표시)\n"
         "     dropped (대체본 없음)      = 폐기+이유 남김      → 검색에 뜸 (폐기 표시)\n"
@@ -78,7 +62,8 @@ MESSAGES: dict[str, str] = {
         "## 배치 수정\n"
         "  edit(items='[{{\"id\":\"lr-...\",\"status\":\"done\"}},...]')\n"
         "  items가 JSON 배열 + 첫 항목 ID로 타입 자동 판별 (dc-* → doc batch, lr-* → lore batch)\n"
-        "  항목별 overwrite 지원 — 전체교체(수정), 옛 body→log(id)로 복구"
+        "  항목별 overwrite 지원 — 전체교체(수정), 옛 body→log(id)로 복구\n"
+        "    (항목별 \"overwrite\":true 또는 \"action\":\"overwrite\" — 단건 edit()과 동일 별칭, 둘 다 됨)"
     ),
 
     "err_no_id_or_items": "오류: id 또는 items(JSON 배열)을 지정하세요.",
@@ -167,4 +152,9 @@ MESSAGES: dict[str, str] = {
     "preview_meta_line": "  ({meta})",
 
     "err_name_not_found": "오류: '{name}'를 찾을 수 없습니다. ID(lr-*/dc-*)를 사용하세요.",
+
+    "err_auto_search_not_alone": "오류: auto_search= 는 단독으로만 — 제거: {params}",
+    "auto_search_set": "[{id}] \"{title}\" — {state}",
+    "auto_search_state_on": "자동 검색/브리프에 다시 포함됨",
+    "auto_search_state_off": "자동 검색/브리프에서 제외됨(show(query=)로 id 직접조회는 그대로 가능)",
 }

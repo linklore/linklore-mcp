@@ -7,7 +7,7 @@ MESSAGES: dict[str, str] = {
         "Write modes (action, tool option = behavior match):\n"
         "- **append (default, non-destructive)** → edit(id, action='append', msg='new content')   # or omit action, msg alone — appends to the end of body, keeps the rest\n"
         "- **section (partial edit)**   → edit(id, action='section', section='heading', msg='new section content')  # replaces just that section (existing heading only — errors if missing; to add a new section use append), keeps the rest\n"
-        "- **overwrite (full replace)** → edit(id, action='overwrite', msg='new body' [, tags=[...], ...])  # old body kept in history(recoverable via log). tags/items(doc only)/links are also fully replaced in the same call\n"
+        "- **overwrite (full body)** → edit(id, action='overwrite', msg='new body' [, tags=[...], ...])  # old body kept in history(recoverable via log). tags/items(doc only) and links= file-paths are overwritten too; links= ids (lr-/dc-) are always additive, never removed by overwrite\n"
         "- **supersede (follow-up publish)** → edit(id, action='supersede', msg='new conclusion')  # creates a new id, old one head=False\n\n"
         "(action= is one of append|section|overwrite|supersede|remove. Unspecified('') means append.)\n\n"
         "Other:\n"
@@ -31,7 +31,7 @@ MESSAGES: dict[str, str] = {
         "    ↳ section= requires msg · cannot combine with action='overwrite'/items (standalone mode) · batch not supported\n"
         "    ↳ heading matching allows partial match; if ambiguous, returns candidates·if not found, returns the list of available sections as-is\n"
         "    ↳ links= in the same call also gets connected (id doesn't change, so it happens right there)\n"
-        "  action='overwrite', msg='new body'        → full body replace(edit). old body→log(id) to recover\n"
+        "  action='overwrite', msg='new body'        → full body overwrite. old body→log(id) to recover\n"
         "    ↳ tags=/items=(doc)/files(file paths in links=) in the same call are also fully replaced · id links in links=\n"
         "      (lr-y/dc-y etc.) are always additive — overwrite has no effect on them (link() is idempotent, so no\n"
         "      risk of losing an existing connection, 2026-07-09 doc-doc deletion live-bug fix)\n"
@@ -41,7 +41,7 @@ MESSAGES: dict[str, str] = {
         "## Edit decision tree\n"
         "  append (non-destructive, default)       → edit(id, msg='...')  or edit(id, action='append', msg='...')\n"
         "  partial edit (replace an existing section only)   → edit(id, action='section', section='heading', msg='...')\n"
-        "  replace (edit)               → edit(id, action='overwrite', msg='...')\n"
+        "  overwrite (destructive, full body)     → edit(id, action='overwrite', msg='...')\n"
         "  follow-up publish (=supersede, creates a new id) → edit(id=old_id, action='supersede', msg='new conclusion')\n"
         "    (or add(type='lore'|'doc', relates=old_id, ...) — same path)\n"
         "  drop (no replacement, stays in search) → edit(id, status='dropped')\n"
@@ -57,7 +57,8 @@ MESSAGES: dict[str, str] = {
         "  to unlink (1 file·1 id) use unlink(a, target) — links='-' bulk-unlink has been removed\n"
         "    (it's the same operation as repeating unlink(), no evidence of real demand)\n"
         "## status (lore/doc common) — a lifecycle tag (keeps showing up in search)\n"
-        "  open | done | dropped | rule(unchanging standard) (or 'clear' = back to open). any other value is rejected.\n"
+        "  open | done | dropped | rule(unchanging standard) (or 'clear' = back to open). "
+        "any other value — rejected if status is the only change; if combined with other changes(msg etc.), those go through and status is skipped(keeps the existing value)+warning.\n"
         "  ★ distinguishing cleanup shapes (easy to mix up):\n"
         "     done                     = finished valid knowledge      → shows in search (marked complete)\n"
         "     dropped (no replacement)      = discarded+reason kept      → shows in search (marked dropped)\n"
@@ -65,7 +66,7 @@ MESSAGES: dict[str, str] = {
         "     rm                       = permanent delete(no history)   → trash/permanent\n"
         "  ↑ supersede isn't a separate concept — it's 'dropped with a replacement link'. the link's presence decides search visibility.\n"
         "## Collection fields (items(doc only)/tags/links) — same rules as msg\n"
-        "    default = append(non-destructive, keeps existing) | action='overwrite' = full replace\n"
+        "    default = append(non-destructive, keeps existing) | action='overwrite' = full overwrite\n"
         "    tags/items support '-' = clear · links has no '-', unlink individually via unlink(a, target)\n"
         "    remove items(destructive, doc only): requires action='remove' — edit(id, action='remove', items=[N])  # 1-based, multiple: items=[N,M]\n"
         "    add items: use a list — edit(id, items=['new item'])  ('+text' string prefix has been retired)\n"
@@ -78,7 +79,8 @@ MESSAGES: dict[str, str] = {
         "## Batch edits\n"
         "  edit(items='[{{\"id\":\"lr-...\",\"status\":\"done\"}},...]')\n"
         "  items as a JSON array + type auto-detected from the first item's ID (dc-* → doc batch, lr-* → lore batch)\n"
-        "  per-item overwrite supported — full replace(edit), old body→log(id) to recover"
+        "  per-item overwrite supported — full body overwrite, old body→log(id) to recover\n"
+        "    (per-item \"overwrite\":true, or \"action\":\"overwrite\" — same alias as single edit(), either works)"
     ),
 
     "err_no_id_or_items": "error: specify id or items(a JSON array).",
@@ -167,4 +169,9 @@ MESSAGES: dict[str, str] = {
     "preview_meta_line": "  ({meta})",
 
     "err_name_not_found": "error: '{name}' not found. use an ID(lr-*/dc-*).",
+
+    "err_auto_search_not_alone": "error: auto_search= must be passed alone — remove: {params}",
+    "auto_search_set": "[{id}] \"{title}\" — {state}",
+    "auto_search_state_on": "included in automatic search/brief again",
+    "auto_search_state_off": "excluded from automatic search/brief (still reachable by id via show(query=))",
 }

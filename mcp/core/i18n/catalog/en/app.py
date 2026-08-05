@@ -3,13 +3,23 @@ MESSAGES: dict[str, str] = {
 
 
     "instructions": (
-        "AI-native structured memory for agents — lore (decisions, pitfalls, journal) "
-        "and doc (specs, plans) that you read and write directly, linked to code files. "
-        "Built for agents, not humans — every tool here is designed for usability by an "
-        "AI, not readability for a person. "
-        "Call brief() first in every session for a dashboard of open items and recent "
-        "activity. Not set up yet? Call init(). Full self-contained guide: "
-        "show(tag='guide')."
+        "Every tool here is designed solely for agents. "
+        "It manages tags, status, and links on top of lore (records that carry across "
+        "sessions) and doc (the higher-level unit that groups lore — specs, plans). "
+        "Call brief() at the start of every session to save search tokens. "
+        "Not set up yet? Call init(). "
+        "Data lives in each folder's .linklore/ — one at a parent folder, or one per "
+        "subfolder. "
+        "ToolSearch matches English only.\n\n"
+        "Tools (23) — unsure a name matches? look it up directly: ToolSearch(\"select:<name>\")\n"
+        "  add           create a lore/doc record\n"
+        "  show          query/search — the main lookup tool\n"
+        "  edit          modify an existing record\n"
+        "  openbox       share across owners — invite, push, pull, members\n"
+        "  local_cross   same-disk, same-owner move/copy/view (no server involved)\n"
+        "  report        send feedback/a bug report directly\n"
+        "  others: (record) link|unlink|rm|restore  (inspect) brief|log|status|doctor|cleanup\n"
+        "          (docs) doc_flow|doc_rollup|doc_map  (server) push|pull|market  (settings) config|init"
     ),
 
 

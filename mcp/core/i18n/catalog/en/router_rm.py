@@ -8,7 +8,8 @@ MESSAGES: dict[str, str] = {
         "show/rm stay inside my own project — openbox (shared) cleanup lives in the openbox tool.\n\n"
         "## Deleting items (lore/doc) — id is a single value or a list (batch)\n"
         "- **trash (recoverable, default)**         → `rm(id)`  → restore(id) to recover\n"
-        "- **permanent delete (unrecoverable, needs confirm)** → `rm(id, force=True)` → re-call `rm(confirm=N)`\n"
+        "- **permanent delete (unrecoverable)** → `rm(id, force=True)` prints the exact "
+        "`forced(action='rm', id=...)` call to run — this call itself deletes nothing\n"
         "- **batch delete**                       → `rm(id=['lr-x','dc-y'], force=True)`\n"
         "- **mark as dropped (stays in search)**        → `edit(id, status='dropped')`\n"
         "- **supersede (keep old + new head)**  → `add(type='lore'|'doc', relates=old_id, ...)`\n\n"
@@ -26,7 +27,8 @@ MESSAGES: dict[str, str] = {
         "show/rm stay inside my own project — openbox (shared) cleanup lives in the openbox tool.\n\n"
         "## Items (lore/doc) — action='' (default)\n"
         "  trash (recoverable, default)        → rm(id)  → restore(id) to recover\n"
-        "  permanent delete (unrecoverable, needs confirm) → rm(id, force=True) → re-call rm(confirm=N)\n"
+        "  permanent delete (unrecoverable) → rm(id, force=True) prints the forced(action='rm', id=...) "
+        "call to run — nothing is deleted by this call itself\n"
         "  mark as dropped (stays in search)          → edit(id, status='dropped')\n\n"
         "## Taking down something you sent — my server only (doesn't touch the source of truth) — action='sent'\n"
         "  rm(sent='lr-x'|'dc-x')\n\n"
@@ -40,7 +42,7 @@ MESSAGES: dict[str, str] = {
 
     "restore_help": (
         "restore — recover soft-deleted items from trash\n\n"
-        "  restore()      → trash listing (lore + doc)\n"
+        "  restore()      → trash listing (lore + doc, most-recently-trashed first, default 10 — adjust with max=)\n"
         "  restore(id)    → recover that lore/doc (reappears in search/related suggestions)\n\n"
         "rm(id) = move to trash(default), rm(id, force=True) = permanent delete (needs confirm)."
     ),
@@ -78,14 +80,23 @@ MESSAGES: dict[str, str] = {
 
     "force_delete_confirm": (
         "⚠️ preparing to permanently delete [{id}] \"{title}\" — unrecoverable. "
-        "1. run it: rm(confirm={slot}) · 2. move to trash instead: rm(id='{id}')  (expires in 15 min)"
+        "1. run it: forced(action='rm', id='{id}') · "
+        "2. move to trash instead: rm(id='{id}') (kept — restore() to recover)"
     ),
 
+
+    "force_delete_batch_hint": "run them all at once: forced(action='rm', id={ids})",
+
     "restore_listing_empty": "trash is empty.",
-    "restore_listing_header": "# Trash ({n}) — restore(id) to recover",
+    "restore_listing_header": "# Trash ({n}/{total}) — restore(id) to recover",
     "restore_listing_line": "- [{id}] {title}  ({when})",
+
+    "restore_listing_truncated": "\n  … {shown} of {total} shown — more: max={total}",
     "restore_not_trash": "[{id}] already active (not in trash).",
     "restore_restored": "[{id}] recovered from trash",
+
+
+    "restore_batch_summary": "{n} recovered: {ids}",
 
     "err_sent_no_server": (
         "error: no server of mine (never pushed).\n"
@@ -99,8 +110,7 @@ MESSAGES: dict[str, str] = {
         "⚠️ deleting openbox '{space}' — unrecoverable.\n"
         "  · all shared entries and member access in that shared space will be permanently deleted.\n"
         "  · everyone's local source of truth stays safe — only the shared copy disappears.\n"
-        "  1. run it: openbox(confirm={slot})\n"
-        "  2. cancel: do nothing (expires in 15 min)"
+        "  · run: forced(action='openbox', delete='{pid}')\n"
     ),
     "err_openbox_delete_no_auth": "error: openbox delete failed — no auth for '{space}'",
     "err_openbox_delete_failed": "error: openbox delete failed — {detail}",

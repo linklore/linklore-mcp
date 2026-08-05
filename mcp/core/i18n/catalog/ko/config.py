@@ -1,29 +1,6 @@
 """Korean (ko) messages for the 'config' surface."""
 MESSAGES: dict[str, str] = {
 
-    "tool_desc": (
-        "프로젝트 설정(오픈박스 source 옵션) + iam + 세션 pin.\n"
-        "\n"
-        "⚠️ handle/name/email 은 프로젝트가 아니라 이 머신 전체에 적용됩니다.\n"
-        "\n"
-        "공유는 별도 도구: openbox(오픈박스 공유·멤버).\n"
-        "\n"
-        "action 11갈래:\n"
-        "- action='whoami' → 내 신원(handle/name/email) 조회\n"
-        "- action='version' → 서버 코드 버전(git commit) 조회\n"
-        "- action='sources' → 등록된 외부 source(오픈박스) 목록\n"
-        "- action='option' → 외부 source 설정(auto_search=/show_prefix=) 변경\n"
-        "- action='sync' → 외부 source 캐시 강제 갱신\n"
-        "- action='forget' → 외부 source 등록 해제\n"
-        "- action='pin' → 이 세션을 특정 프로젝트에 고정\n"
-        "- action='unpin' → 세션 고정 해제\n"
-        "- action='sessions' → 내 계정 세션 목록/강제로그아웃(revoke=)\n"
-        "- action='projects' → 이 머신의 전체 LinkLore 프로젝트 목록\n"
-        "- action='delete_project' → 서버상 개인공간 영구삭제 (2단계 confirm)\n"
-        "\n"
-        "help=true로 상세 안내."
-    ),
-
     "help": (
         "config — 프로젝트 설정 + 외부 오픈박스 source 옵션 + user 정보\n"
         "\n"
@@ -66,7 +43,7 @@ MESSAGES: dict[str, str] = {
         "  config()                   현재 설정 + 외부 source 요약\n"
         "  config(action='projects')  전체 LinkLore 프로젝트 목록 (별칭: projects=true)\n"
         "  config(action='version')   현재 mcp 코드 버전(git commit) 확인\n"
-        "  config(action='delete_project', project_id=, confirm='<확인 코드>')  개인공간(내 서버) 영구 삭제 — 1차 호출이 1회용 확인 코드를 발급, project_id 미지정 시 pin된/현재 프로젝트 대상, 오픈박스는 openbox(name=, action='delete')"
+        "  config(action='delete_project', project_id=)  개인공간(내 서버) 영구 삭제 — 1차 호출은 안내문만 반환(실행 없음), 실행은 안내문이 인쇄하는 forced(action='config', delete_project=<id>) 재호출, project_id 미지정 시 pin된/현재 프로젝트 대상, 오픈박스는 openbox(name=, action='delete')"
     ),
 
     "err_invalid_action": "오류: 알 수 없는 action '{action}'. 유효: {valid} (또는 비움=현재 설정 표시). help=True.",
@@ -100,11 +77,7 @@ MESSAGES: dict[str, str] = {
     "session_line": "- {id}{marker}  생성 {created}  최근사용 {last_used}  만료 {expires}",
     "sessions_footer": "폐기: config(action='sessions', revoke='<id>') (개별, 즉시) · revoke='all' (현재 세션 제외 전부, 확인 필요)",
     "sessions_revoke_all_desc": "세션 일괄 폐기 (현재 세션 제외)",
-    "sessions_revoke_all_confirm": (
-        "⚠️ 현재 세션을 제외한 내 계정의 모든 활성 세션을 폐기합니다 — 되돌릴 수 없습니다.\n"
-        "  1. 실행: config(confirm={slot})\n"
-        "  2. 취소: 아무것도 안 함 (15분 후 소멸)"
-    ),
+    "sessions_revoke_all_confirm": "⚠️ 현재 세션을 제외한 내 계정의 모든 활성 세션을 폐기합니다 — 되돌릴 수 없습니다.\n실행: forced(action='config', sessions_revoke_all=True)",
 
     "no_sources": "등록된 외부 source 없음",
     "src_list_header": "# 외부 source ({count})",
@@ -122,6 +95,9 @@ MESSAGES: dict[str, str] = {
     "forget_done": "[{name}] source 등록 해제 — {where}",
 
     "settings_header": "# {name} 설정",
+    "default_iam_line": "iam: {identity}",
+    "default_pin_line": "pin: {name}",
+    "pin_state_none": "없음",
     "default_sources_summary": "\n외부 source ({count}): {names}",
     "default_sources_detail_hint": "  상세: config(action='sources')",
     "default_projects_hint": "전체 프로젝트 목록: config(projects=true)",
@@ -132,17 +108,14 @@ MESSAGES: dict[str, str] = {
     "delete_project_personal_label": "개인 공간",
     "err_delete_project_use_rm_openbox": "오류: 오픈박스 삭제는 openbox(name='{name}', action='delete') 사용 — config(action='delete_project')는 개인 공간 전용",
     "err_delete_project_no_target": "오류: 삭제 대상 없음 — project_id= 직접 지정하거나, 이 프로젝트를 config(action='pin')으로 먼저 지정한 뒤 재시도(pin된/현재 프로젝트의 개인 공간)",
+    "err_delete_project_no_personal_target": "오류: 현재 선택된 프로젝트는 서버 개인 공간에 등록된 적 없음(한 번도 push 안 됨) — 먼저 push() 하거나, project_id= 로 다른 프로젝트를 직접 지정하세요",
     "err_delete_project_bad_ref": "오류: project_id='{ref}' — prj-xxxxxxxx (config(action='projects')에 표시) 또는 풀 UUID 로 지정하세요",
     "err_delete_project_ref_not_found": "오류: '{ref}' 에 해당하는 프로젝트 없음 — 주소록·내 멤버십에서 못 찾음. 확인: config(action='projects')",
     "delete_project_ambiguous_header": "오류: '{ref}' 가 여러 프로젝트와 일치 — 어느 것인가요? (자동 선택 안 함)",
     "delete_project_ambiguous_item": "  {n}. {label} ({prj}) → {cmd}",
     "candidates_more": "  … 외 {n}건",
     "delete_project_desc": "개인 공간 영구 삭제 — {label} ({id})",
-    "delete_project_confirm_needed": (
-        "⚠️ [{label}] ({id}) 서버에서 영구 삭제 — lore/doc/멤버/초대 전부 사라지고 복구 불가.\n"
-        "  1. 실행: config(confirm={slot})\n"
-        "  2. 취소: 아무것도 안 함 (15분 후 소멸)"
-    ),
+    "delete_project_confirm_needed": "⚠️ [{label}] ({id}) 서버에서 영구 삭제 — lore/doc/멤버/초대 전부 사라지고 복구 불가.\n실행: forced(action='config', delete_project='{prj_id}')",
     "err_delete_project_failed": "오류: 삭제 실패 ({code}) — {body}",
     "delete_project_done": "[{label}] ({id}) 서버에서 영구 삭제됨.",
 }

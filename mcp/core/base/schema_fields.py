@@ -17,13 +17,3 @@ ProjectDirArg = Annotated[
         )
     ),
 ]
-
-ConfirmArg = Annotated[
-    int | str,
-    Field(
-        description=(
-            "Confirmation slot number echoed back from a prior 2-step "
-            "destructive-action warning. Pass this alone, with no other arguments."
-        )
-    ),
-]

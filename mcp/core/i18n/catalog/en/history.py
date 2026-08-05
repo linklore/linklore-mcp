@@ -19,5 +19,11 @@ MESSAGES: dict[str, str] = {
     "doc_history_header": "# doc/{id} change history ({n})",
 
     "no_history_at_all": "No history.",
+
+
+    "no_history_max_zero": "0 shown (max=0 was requested — {total} entries exist, increase max).",
     "unified_header": "# project history ({n})",
+
+
+    "log_max_clamped_hint": "\n  … {shown} of {total} shown (server cap {cap}) — narrow with period=, or use log(id=...) for a single item's full history",
 }

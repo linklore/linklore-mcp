@@ -1,31 +1,13 @@
 """Korean (ko) messages for the 'router_rm' surface."""
 MESSAGES: dict[str, str] = {
 
-
-    "tool_desc": (
-        "rm — 본진 삭제 통일. 대상은 인자로 구분(action= 은 명시적 대안, 미지정 시 인자 존재로 자동판별). "
-        "show/rm은 내 프로젝트 안에서만 논다 — 오픈박스(공유) 쪽 정리는 openbox 도구.\n\n"
-        "## 항목 삭제 (lore/doc) — id 는 단건 또는 list (일괄)\n"
-        "- **휴지통 (복구가능, 기본)**         → `rm(id)`  → restore(id) 로 복구\n"
-        "- **영구 삭제 (복구 불가, 확인 필요)** → `rm(id, force=True)` → 안내된 `rm(confirm=N)` 재호출\n"
-        "- **일괄 삭제**                       → `rm(id=['lr-x','dc-y'], force=True)`\n"
-        "- **폐기 표시 (검색 시 보임)**        → `edit(id, status='dropped')`\n"
-        "- **supersede (옛 보존 + 새 head)**  → `add(type='lore'|'doc', relates=old_id, ...)`\n\n"
-        "## 보낸 발자취 내림 — 내 서버 전용 (push 역연산, 본진 안 건드림)\n"
-        "- `rm(sent='lr-x'|'dc-x')`  내 서버에서 내림 (또는 action='sent' 명시)\n\n"
-        "## 오픈박스 쪽은 여기 아님 (openbox 문패로 이동)\n"
-        "- 공유 발자취 회수: openbox(action='rm', id=...) · 멤버 추방: openbox(action='rm', member=...) · "
-        "통삭제: openbox(action='delete')\n"
-    ),
-
-    "restore_tool_desc": "restore(id) — 휴지통 lore·doc 복구. id 없으면 휴지통 목록.",
-
     "help": (
         "rm — 본진 삭제 통일 (대상은 인자로, action= 은 명시적 대안)\n"
         "show/rm은 내 프로젝트 안에서만 논다 — 오픈박스(공유) 쪽 정리는 openbox 도구.\n\n"
         "## 항목 (lore/doc) — action='' (기본)\n"
         "  휴지통 (복구가능, 기본)        → rm(id)  → restore(id) 복구\n"
-        "  영구 삭제 (복구 불가, 확인 필요) → rm(id, force=True) → 안내된 rm(confirm=N) 재호출\n"
+        "  영구 삭제 (복구 불가)          → rm(id, force=True) 가 forced(action='rm', id=...) 호출문을 "
+        "안내(이 호출 자체는 삭제 안 함)\n"
         "  폐기 표시 (검색 보임)          → edit(id, status='dropped')\n\n"
         "## 보낸 발자취 내림 — 내 서버 전용 (본진 안 건드림) — action='sent'\n"
         "  rm(sent='lr-x'|'dc-x')\n\n"
@@ -39,7 +21,7 @@ MESSAGES: dict[str, str] = {
 
     "restore_help": (
         "restore — 휴지통(soft-deleted) 복구\n\n"
-        "  restore()      → 휴지통 목록 (lore + doc)\n"
+        "  restore()      → 휴지통 목록 (lore + doc, 최근 삭제순 기본 10건 — max= 로 조정)\n"
         "  restore(id)    → 해당 lore/doc 복구 (검색/관련후보 재등장)\n\n"
         "rm(id) = 휴지통 이동(기본), rm(id, force=True) = 영구삭제(확인 필요)."
     ),
@@ -77,14 +59,22 @@ MESSAGES: dict[str, str] = {
 
     "force_delete_confirm": (
         "⚠️ [{id}] \"{title}\" 영구 삭제 준비 — 복구 불가. "
-        "1. 실행: rm(confirm={slot}) · 2. 대신 휴지통으로: rm(id='{id}')  (15분 후 소멸)"
+        "1. 실행: forced(action='rm', id='{id}') · "
+        "2. 대신 휴지통으로: rm(id='{id}') (보존 — restore()로 복구)"
     ),
 
+
+    "force_delete_batch_hint": "일괄 실행: forced(action='rm', id={ids})",
+
     "restore_listing_empty": "휴지통 비어있음.",
-    "restore_listing_header": "# 휴지통 ({n}건) — restore(id) 로 복구",
+    "restore_listing_header": "# 휴지통 ({n}/{total}건) — restore(id) 로 복구",
     "restore_listing_line": "- [{id}] {title}  ({when})",
+
+    "restore_listing_truncated": "\n  … 전체 {total}건 중 {shown}건 — 더: max={total}",
     "restore_not_trash": "[{id}] 이미 활성 상태 (휴지통 아님).",
     "restore_restored": "[{id}] 휴지통에서 복구됨",
+
+    "restore_batch_summary": "{n}건 복구됨: {ids}",
 
     "err_sent_no_server": (
         "오류: 내 서버 없음 (push 한 적 없음).\n"
@@ -98,8 +88,7 @@ MESSAGES: dict[str, str] = {
         "⚠️ 오픈박스 '{space}' 삭제 — 복구 불가.\n"
         "  · 그 공유공간의 모든 공유 발자취 + 멤버 접근이 영구 삭제됩니다.\n"
         "  · 각자 본진(로컬) 원본은 안전 — 공유 사본만 사라집니다.\n"
-        "  1. 실행: openbox(confirm={slot})\n"
-        "  2. 취소: 아무것도 안 함 (15분 후 소멸)"
+        "  · 실행: forced(action='openbox', delete='{pid}')\n"
     ),
     "err_openbox_delete_no_auth": "오류: 오픈박스 삭제 실패 — '{space}' 인증 정보 없음",
     "err_openbox_delete_failed": "오류: 오픈박스 삭제 실패 — {detail}",

@@ -10,6 +10,13 @@ MESSAGES: dict[str, str] = {
     ),
 
 
+    "box_access_denied_viewer": (
+        "박스 '{name}' — 멤버이지만 권한(VIEWER)이 부족해 쓰기(push/send)가 거부됐습니다. "
+        "박스 owner에게 역할 상향을 요청하세요: "
+        "openbox(name='{name}', action='role', member='<member_id>', role='member')"
+    ),
+
+
     "heal_project_reinvite": (
         "오류: 프로젝트 iam이 거부되었습니다 (401) — 세션이 회전됐거나 폐기됐을 수 있습니다.\n"
         "  브라우저 재로그인으로는 복구되지 않습니다 (프로젝트 iam이 계정보다 우선).\n"

@@ -46,14 +46,21 @@ def msg(key: str, **fmt) -> str:
     if "." not in key:
         raise KeyError(f"i18n: key 형식은 '<샤드>.<슬러그>' 여야 합니다 — got {key!r}")
     shard, _, slug = key.partition(".")
-    catalog = _load_shard(_lang(), shard)
-    try:
-        template = catalog[slug]
-    except KeyError as e:
-        raise KeyError(
-            f"i18n: 키 없음 — {key!r} (lang={_lang()!r}, shard={shard!r})"
-        ) from e
+    lang = _lang()
+    template = _lookup(lang, shard, slug)
+    if template is None and lang != DEFAULT_LANG:
+        template = _lookup(DEFAULT_LANG, shard, slug)
+    if template is None:
+        raise KeyError(f"i18n: 키 없음 — {key!r} (lang={lang!r}, shard={shard!r})")
     return template.format(**fmt)
+
+
+def _lookup(lang: str, shard: str, slug: str) -> str | None:
+    try:
+        catalog = _load_shard(lang, shard)
+    except KeyError:
+        return None
+    return catalog.get(slug)
 
 
 __all__ = ["msg", "DEFAULT_LANG"]

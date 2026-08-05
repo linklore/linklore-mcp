@@ -1,14 +1,6 @@
 """Korean (ko) messages for the 'router_add' surface."""
 MESSAGES: dict[str, str] = {
 
-
-    "tool_desc": (
-        "add(type='lore'|'doc', title, msg=) — lore=발자취/결정, doc=기획서.\n"
-        "연결 인자 2종: links=통합(코드파일·dc/lr id·제목 자동분류, flow=True 면 문서 체인) · push_to=박스로 전송(링크 아님).\n"
-        "items=['a','b']→체크리스트(0/N, doc 전용) · items=[{{...}}]→batch 생성(lore·doc 둘 다 — 다건은 이걸로, N번 단건호출보다 넛지 조용함). "
-        "상세 help=True"
-    ),
-
     "help": (
         "add — 엔티티 생성 (type으로 라우팅)\n\n"
         "## 인자 형식\n"
@@ -24,6 +16,8 @@ MESSAGES: dict[str, str] = {
         "  items=[{{'title':'...'}},...]   → 카탈로그(dict 카드) = batch 생성 (lore·doc 둘 다 가능)\n"
         "  💡 lore 여러 건 만들 땐 이 배치형으로 — add() 단건 N번보다 조용함"
         "(항목당 관련후보 top-1 한 줄만, 단건은 매번 전체 넛지)\n"
+        "  🔀 혼합 배치: 각 dict에 자체 'type':'lore'|'doc' 지정 가능 — 없으면 top-level "
+        "type=(기본 'lore') 승계. 지원하지 않는 type 값은 그 항목만 오류, 나머지는 정상 생성.\n"
         "  ⚠️ done 키 없는 dict 항목은 legacy 읽기 전용 — 신규 생성엔 비권장"
         "(체크리스트는 list[str] 또는 done 포함 dict로)\n\n"
         "## 예시\n"
@@ -41,7 +35,8 @@ MESSAGES: dict[str, str] = {
         "  cf. 모순을 *기존* 항목 Y 로 묶기만 = link(a=X, b='lr-Y'|'dc-Y', action='supersede')\n\n"
         "## status (lore/doc 공통) — 생명주기 딱지 (검색에 계속 뜸)\n"
         "  open(기본) 살아있음 · done 완료 · dropped 폐기 · rule 바뀌지 않는 기준(계속 유효)\n"
-        "  ⚠️ done/dropped/rule 은 '딱지'라 검색에 계속 뜸. 그 외 값은 거부.\n"
+        "  ⚠️ done/dropped/rule 은 '딱지'라 검색에 계속 뜸. 그 외 값은 거부되지 않음 — "
+        "일반 생성은 open 으로 보정(+경고), supersede(relates=)는 이전 항목의 status 상속(+경고).\n"
         "  cf. 폐기하며 '대체본'을 함께 가리키면 자동 검색제외 (=supersede, 별도 개념 아님):\n"
         "     link(a=X, b='lr-Y', action='supersede')  — 대체본 링크가 검색노출을 가름\n"
         "     done=끝난 유효 지식(검색됨) · dropped=폐기+이유(검색됨) · dropped+대체본=옛버전(숨김)\n\n"
@@ -71,6 +66,7 @@ MESSAGES: dict[str, str] = {
     "err_flow_doc_only": "오류: flow는 doc 전용 — 문서 여정 체인 (lore 는 flow 없음).",
     "err_flow_files_forbidden": "오류: flow 체인 대상은 doc id/제목만 — 파일 경로 불가: {files}",
     "err_unknown_type": "오류: 알 수 없는 type '{t}'. doc | lore",
+    "err_batch_entry_bad_type": "type '{t}' 미지원 — lore|doc",
 
     "files_more_suffix": " 외 {n}",
 
@@ -85,7 +81,7 @@ MESSAGES: dict[str, str] = {
     "link_summary_header": "\n🔗 연결됨 (links=):\n",
 
     "push_to_fail": "\n  ⚠️ push_to 처리 실패: {err}",
-    "push_to_unregistered": "  ⚠️ source '{name}' 미등록",
+    "push_to_unregistered": "  ⚠️ 오픈박스 '{name}' 미등록 — openbox(name='{name}', action='new')로 먼저 만드세요",
     "push_to_line": "  → {result}",
 
     "batch_streak_hint": (

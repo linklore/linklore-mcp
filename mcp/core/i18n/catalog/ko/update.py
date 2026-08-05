@@ -1,13 +1,6 @@
 """Korean (ko) messages for the 'update' surface."""
 MESSAGES: dict[str, str] = {
 
-
-    "tool_desc": (
-        "status() — 코드↔doc 동기화 감지 (git diff 기반). lore/doc 내용 조회 아님 → show()·brief().\n"
-        "\n"
-        "since, action(''|'ack'|'reset'), ack, reset, help."
-    ),
-
     "help": (
         "status — 코드↔doc 동기화 상태 (git diff 기반 stale 감지)\n"
         "  ⚠️ lore/doc 내용·진행 상태 조회가 아님 — 그건 show() · brief() · show(type='doc').\n"

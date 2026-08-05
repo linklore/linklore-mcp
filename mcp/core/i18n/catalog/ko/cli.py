@@ -1,17 +1,23 @@
 """Korean (ko) messages for the 'cli' surface."""
 MESSAGES: dict[str, str] = {
+
+
     "usage": (
         "LinkLore MCP — 사용법:\n"
-        "  uvx llre init       이 디렉토리에 .linklore 셋업 (발자취 메모리 시작)\n"
-        "  uvx llre            AI 도구용 MCP 서버 (stdio, 무인자)\n"
-        "  uvx llre login      Google 로그인 (브라우저)\n"
-        "  uvx llre logout     로컬 토큰 제거 (로그아웃)\n"
-        "  uvx llre connect    이 프로젝트를 내 계정에 연결 (개인 백업)\n"
-        "  uvx llre whoami     지금 iam 확인\n"
-        "  uvx llre doctor     프로젝트 데이터 정합성 점검\n"
+        "  uvx llre                  AI 도구용 MCP 서버 (stdio, 무인자)\n"
+        "  uvx llre add ...          기록 추가 — lore(사건·결정)/doc(스펙)\n"
+        "  uvx llre show ...         조회·검색 (예: llre show query=lr-x)\n"
+        "  uvx llre edit ...         수정 (기본 append)\n"
+        "  uvx llre openbox ...      다른 소유자와 공유 — 오픈박스 (초대·공유·가져오기)\n"
+        "  uvx llre local_cross ...  내 컴퓨터의 다른 폴더/프로젝트 — 조회·이동·복사\n"
         "  uvx llre report <메시지>   피드백/버그 바로 전송 (로그인 불필요)\n"
-        "  uvx llre <도구> [키=값 ...]   모든 도구 직접 호출 (예: llre brief / llre show query=lr-x / llre add help=true)\n"
+        "  uvx llre <도구> [키=값 ...]   모든 도구 직접 호출 · 상세는 <도구> help=true\n"
+        "    others: (기록) link|unlink|rm|restore  (조회·점검) brief|log|status|doctor|cleanup\n"
+        "            (문서) doc_flow|doc_rollup|doc_map  (서버) push|pull|market  (계정·설정) config|init|login|logout|connect|whoami\n"
     ),
+
+
+    "unknown_hint": "오류: '{input}' 은(는) 없는 명령/도구 — 혹시: {candidates}? 사용법: llre {first} help=true",
     "err_run_failed": "오류: llre {sub} 실패 — {err}",
     "err_flag_help": (
         "도움말은 help=true 로 — 예: llre {sub} help=true\n"
@@ -22,6 +28,14 @@ MESSAGES: dict[str, str] = {
         "예시: llre show query=lr-x / llre add type=lore title=제목 msg=내용"
     ),
 
+    "login_help": (
+        "llre login [--force] — 브라우저로 계정 인증.\n"
+        "  --force 는 캐시된 세션 확인 없이 곧장 재인증합니다."
+    ),
+    "err_login_args": "오류: llre login 은 --force 외 인자를 받지 않습니다 — 도움말: llre login --help",
+    "logout_help": "llre logout — 로컬 인증정보 삭제 + 서버 세션 폐기.",
+    "err_logout_args": "오류: llre logout 은 인자를 받지 않습니다 — 도움말: llre logout --help",
+
     "login_already": "이미 로그인됨 ({email}) — 재로그인: llre login --force",
     "err_login_keychain_read_failed": (
         "오류: Keychain 접근 실패 — 로그인 상태를 확인할 수 없습니다 ({err})\n"
@@ -31,7 +45,8 @@ MESSAGES: dict[str, str] = {
 
     "err_login_start_failed": "오류: 로그인 시작 실패 (백엔드 연결) — 잠시 후 다시 시도하세요.",
 
-    "login_callback_success": "✅ CLI 인증 완료 — 이 창은 곧 이동합니다.",
+    "login_callback_success_title": "인증완료!",
+    "login_callback_success_subtitle": "프로젝트 홈으로 이동합니다.",
     "login_callback_failed": "인증 실패 — 터미널에서 <code>uvx llre login</code>을 다시 실행하세요.",
 
     "logout_already": "이미 로그아웃 상태입니다 (저장된 토큰 없음).",

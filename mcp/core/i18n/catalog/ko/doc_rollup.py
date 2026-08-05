@@ -1,8 +1,6 @@
 """Korean (ko) messages for the 'doc_rollup' surface."""
 MESSAGES: dict[str, str] = {
 
-    "tool_desc": "[read-only] doc_rollup(id) — doc에 연결된 lore 수집 → AI 요약용 draft.",
-
     "help": (
         "doc_rollup — 연결 lore 수집 → AI 요약용 markdown\n\n"
         "  doc_rollup(id='dc-xxx')\n\n"

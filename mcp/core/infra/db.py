@@ -1,9 +1,11 @@
 """Database engine and session management for the local store."""
+import contextvars
 import os
 from contextlib import contextmanager
 from pathlib import Path
 
 from sqlalchemy import Engine, create_engine, event
+from sqlalchemy import text as _sql_text
 from sqlalchemy.orm import Session, sessionmaker
 from core.infra.db_models import Base
 
@@ -17,6 +19,11 @@ from core.infra.schema_gate import (
 
 _engines: dict[str, Engine] = {}
 _initialized: set[str] = set()
+
+
+_active_uow_dirs: contextvars.ContextVar[frozenset[str]] = contextvars.ContextVar(
+    "_active_uow_dirs", default=frozenset()
+)
 
 
 def _enable_sqlite_fk(engine: Engine) -> None:
@@ -63,15 +70,25 @@ def get_session(data_dir: Path) -> Session:
 
 @contextmanager
 def uow(data_dir: Path):
-    s = get_session(data_dir)
+    key = str(Path(data_dir).resolve())
+    active = _active_uow_dirs.get()
+    if key in active:
+        raise RuntimeError(f"중첩 uow() — 같은 data_dir({data_dir})에 이미 열린 트랜잭션 안에서 또 uow() — 자기교착 위험")
+    token = _active_uow_dirs.set(active | {key})
     try:
-        yield s
-        s.commit()
-    except Exception:
-        s.rollback()
-        raise
+        s = get_session(data_dir)
+        try:
+            if s.get_bind().dialect.name == "sqlite":
+                s.execute(_sql_text("BEGIN IMMEDIATE"))
+            yield s
+            s.commit()
+        except Exception:
+            s.rollback()
+            raise
+        finally:
+            s.close()
     finally:
-        s.close()
+        _active_uow_dirs.reset(token)
 
 
 def init_db(data_dir: Path) -> None:

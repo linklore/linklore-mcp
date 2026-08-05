@@ -30,6 +30,7 @@ MESSAGES: dict[str, str] = {
     "err_supersede_type_mismatch": "error: supersede only works within the same type — lore↔lore or doc↔doc",
     "err_supersede_self": "error: cannot supersede an item with itself",
     "err_supersede_target_missing": "error: the replacement target '{b}' does not exist (prevents a phantom supersede).",
+    "err_supersede_cycle": "error: {a} → {b} would create a supersede cycle — {b} already (transitively) leads back to {a}. Both items are unchanged.",
     "supersede_done": (
         "[{a}] dropped + replaced → [{b}]\n"
         "  A dropped item with a replacement is auto-excluded from search (head=False). Visible via show(superseded=True)·show(query=).\n"
@@ -43,6 +44,9 @@ MESSAGES: dict[str, str] = {
     "err_item_not_found": "error: '{other}' not found.",
     "not_linked_file": "not linked: {other} — {file} (already disconnected)",
     "unlinked_file": "{title} ↮ {file}\nunlinked (file)",
+
+
+    "err_multi_value": "error: a=/b= only accept a single id/file/title — call link() repeatedly to connect multiple pairs, one at a time.",
 
 
     "link_desc": (
@@ -116,6 +120,7 @@ MESSAGES: dict[str, str] = {
     "verdict_not_found": "no verdict: {a} — {b} ({action}) (already cleared)",
     "err_unrecognized_id": "error: unrecognized ID — a={a} ({a_col}), b={b} ({b_col})",
     "err_flow_link_only": "error: flow only supports doc↔doc (both dc-*)",
+    "err_flow_cycle": "error: {a} → {b} would create a cycle — doc journeys only support a linear chain (no loops). Chain is unchanged.",
 
 
     "unlink_desc": "unlink(a, b, action=) — disconnect two items or clear a verdict. Symmetric with link() (action='' default|'flow'|'unrelated'|'distinct', also accepts file paths the same way).",

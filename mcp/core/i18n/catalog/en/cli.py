@@ -1,17 +1,23 @@
 """English (en) messages for the 'cli' surface."""
 MESSAGES: dict[str, str] = {
+
+
     "usage": (
         "LinkLore MCP — usage:\n"
-        "  uvx llre init       set up .linklore in this directory (start the trail memory)\n"
-        "  uvx llre            MCP server for AI tools (stdio, no args)\n"
-        "  uvx llre login      log in with Google (browser)\n"
-        "  uvx llre logout     remove the local token (log out)\n"
-        "  uvx llre connect    connect this project to your account (personal backup)\n"
-        "  uvx llre whoami     show my iam\n"
-        "  uvx llre doctor     check project data integrity\n"
+        "  uvx llre                  MCP server for AI tools (stdio, no args)\n"
+        "  uvx llre add ...          add a record — lore (events/decisions) / doc (specs)\n"
+        "  uvx llre show ...         search & view (e.g. llre show query=lr-x)\n"
+        "  uvx llre edit ...         edit (default: append)\n"
+        "  uvx llre openbox ...      share with other owners — openbox (invite/share/pull)\n"
+        "  uvx llre local_cross ...  other folders/projects on this machine — view/move/copy\n"
         "  uvx llre report <message>   send feedback/a bug directly (no login needed)\n"
-        "  uvx llre <tool> [key=value ...]   call any tool directly (e.g. llre brief / llre show query=lr-x / llre add help=true)\n"
+        "  uvx llre <tool> [key=value ...]   call any tool directly · details: <tool> help=true\n"
+        "    others: (write) link|unlink|rm|restore  (view/check) brief|log|status|doctor|cleanup\n"
+        "            (docs) doc_flow|doc_rollup|doc_map  (server) push|pull|market  (account/config) config|init|login|logout|connect|whoami\n"
     ),
+
+
+    "unknown_hint": "error: '{input}' is not a command/tool — did you mean: {candidates}? usage: llre {first} help=true",
     "err_run_failed": "error: llre {sub} failed — {err}",
     "err_flag_help": (
         "for help, use help=true — e.g., llre {sub} help=true\n"
@@ -22,6 +28,14 @@ MESSAGES: dict[str, str] = {
         "example: llre show query=lr-x / llre add type=lore title=title msg=body"
     ),
 
+    "login_help": (
+        "llre login [--force] — authenticate via browser.\n"
+        "  --force skips the cached-session check and re-authenticates immediately."
+    ),
+    "err_login_args": "error: llre login accepts only --force — for help: llre login --help",
+    "logout_help": "llre logout — remove local credentials + revoke the server session.",
+    "err_logout_args": "error: llre logout takes no arguments — for help: llre logout --help",
+
     "login_already": "already logged in ({email}) — to re-login: llre login --force",
     "err_login_keychain_read_failed": (
         "error: Keychain access failed — can't check login status ({err})\n"
@@ -31,7 +45,8 @@ MESSAGES: dict[str, str] = {
 
     "err_login_start_failed": "error: couldn't start login (backend connection) — please try again shortly.",
 
-    "login_callback_success": "✅ CLI authentication complete — this window will redirect shortly.",
+    "login_callback_success_title": "Authenticated!",
+    "login_callback_success_subtitle": "Redirecting to your project home.",
     "login_callback_failed": "Authentication failed — run <code>uvx llre login</code> again in your terminal.",
 
     "logout_already": "already logged out (no saved token).",

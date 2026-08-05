@@ -1,14 +1,6 @@
 """Korean (ko) messages for the 'doctor' surface."""
 MESSAGES: dict[str, str] = {
 
-
-    "tool_desc": (
-        "doctor() — 프로젝트 데이터 정합성 점검(oldId/newId·files[]경로·링크대상 실존).\n"
-        "\n"
-        "doctor()             read-only 진단 (기본)\n"
-        "doctor(action='fix') 발견된 문제 자동 복구\n"
-    ),
-
     "help": (
         "doctor — 프로젝트 데이터 정합성 점검 + 자동 복구\n"
         "\n"

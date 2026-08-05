@@ -5,7 +5,8 @@ MESSAGES: dict[str, str] = {
     "tool_desc": (
         "add(type='lore'|'doc', title, msg=) — lore=journal entry/decision, doc=spec/plan.\n"
         "2 linking args: links=unified (code files·dc/lr id·title auto-classified, flow=True for a doc chain) · push_to=send to a box (not a link).\n"
-        "items=['a','b']→checklist(0/N, doc only) · items=[{{...}}]→batch creation(both lore·doc — use this for bulk, quieter nudges than N single calls). "
+        "items=['a','b']→checklist(0/N, doc only) · items=[{{...}}]→batch creation(both lore·doc — use this for bulk, quieter nudges than N single calls, with status='rule' as the same reserved value in each dict; "
+        "each dict may set its own 'type' to mix lore·doc in one call — omitted entries inherit the top-level type=). "
         "details help=True"
     ),
 
@@ -24,6 +25,9 @@ MESSAGES: dict[str, str] = {
         "  items=[{{'title':'...'}},...]   → catalog (dict cards) = batch creation (lore and doc both)\n"
         "  💡 creating several lore entries? use this batch form instead of N separate add() calls — "
         "quieter (one top-1 related-candidate line per item, vs the full nudge on every single add())\n"
+        "  🔀 mixed batch: each dict may include its own 'type':'lore'|'doc' — entries without it "
+        "inherit the top-level type= (default 'lore'). an unsupported type value errors out that "
+        "entry only, the rest still get created.\n"
         "  ⚠️ dict items without a done key are legacy, read-only — avoid creating new ones this way "
         "(use list[str] or a dict that includes done)\n\n"
         "## Examples\n"
@@ -41,7 +45,8 @@ MESSAGES: dict[str, str] = {
         "  cf. to just fold a contradiction into an *existing* item Y = link(a=X, b='lr-Y'|'dc-Y', action='supersede')\n\n"
         "## status (lore/doc common) — lifecycle tag (keeps showing up in search)\n"
         "  open(default) alive · done finished · dropped discarded · rule unchanging standard(stays valid)\n"
-        "  ⚠️ done/dropped/rule are 'tags' so they keep showing up in search. any other value is rejected.\n"
+        "  ⚠️ done/dropped/rule are 'tags' so they keep showing up in search. any other value isn't rejected — "
+        "plain creation corrects it to open(+warning), supersede(relates=) inherits the old item's status(+warning).\n"
         "  cf. dropping while pointing at a 'replacement' auto-excludes from search (=supersede, not a separate concept):\n"
         "     link(a=X, b='lr-Y', action='supersede')  — the replacement link decides search visibility\n"
         "     done=finished valid knowledge(searchable) · dropped=discarded+reason(searchable) · dropped+replacement=old version(hidden)\n\n"
@@ -71,6 +76,7 @@ MESSAGES: dict[str, str] = {
     "err_flow_doc_only": "error: flow is doc-only — a doc journey chain (lore has no flow).",
     "err_flow_files_forbidden": "error: flow chain targets must be doc id/title only — file paths not allowed: {files}",
     "err_unknown_type": "error: unknown type '{t}'. doc | lore",
+    "err_batch_entry_bad_type": "type '{t}' unsupported — lore|doc",
 
     "files_more_suffix": " +{n} more",
 
@@ -85,7 +91,7 @@ MESSAGES: dict[str, str] = {
     "link_summary_header": "\n🔗 linked (links=):\n",
 
     "push_to_fail": "\n  ⚠️ push_to failed: {err}",
-    "push_to_unregistered": "  ⚠️ source '{name}' not registered",
+    "push_to_unregistered": "  ⚠️ openbox '{name}' not registered — create it first with openbox(name='{name}', action='new')",
     "push_to_line": "  → {result}",
 
     "batch_streak_hint": (

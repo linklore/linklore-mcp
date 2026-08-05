@@ -39,7 +39,9 @@ MESSAGES: dict[str, str] = {
     "err_no_match": "no doc matches '{label}'",
     "err_sort_invalid": "error: sort='{sort}' is not supported — use one of {valid}",
     "err_empty": "no docs — add(type='doc', title='...') to create one",
-    "limit_suffix": "\n  … +{n} more ({total} total) — more: max={total}",
+
+
+    "limit_suffix": "\n  … {shown} of {total} shown — more: max={total}",
     "matched_header": "{n} match(es):",
 
     "files_label": "files: {files}",

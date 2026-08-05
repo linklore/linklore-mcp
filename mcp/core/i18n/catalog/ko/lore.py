@@ -43,14 +43,6 @@ MESSAGES: dict[str, str] = {
 
     "no_changes": "변경 사항 없음. 수정할 필드를 지정하세요.",
 
-    "overwrite_desc": "body 전체 교체 — {id}",
-    "overwrite_confirm": (
-        "⚠️ [{id}] body 전체 교체 준비 — 기존 {old_len}자 소멸.\n"
-        "  현재 첫 줄: {first_line}\n"
-        "  1. 실행: edit(confirm={slot})\n"
-        "  2. 덧붙이기(기본, overwrite 없이 재호출)"
-    ),
-
     "modify_replace_echo": (
         "\n  body 전체 교체 — 옛 {old_len}자 → 새 {new_len}자 "
         "(옛 본문 lore_history 보존, 복구: log(id='{id}'))\n  ↳ {echo}"
@@ -94,4 +86,7 @@ MESSAGES: dict[str, str] = {
 
     "restore_already_active": "[{id}] 이미 활성 상태 (휴지통 아님).",
     "restored": "[{id}] 휴지통에서 복구됨",
+
+
+    "split_overflow_notice": "\n  본문이 1,500자를 넘어 별도 항목으로 나눠 등록했습니다: [{child_id}] '{child_title}'",
 }

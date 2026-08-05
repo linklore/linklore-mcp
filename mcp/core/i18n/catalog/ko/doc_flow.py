@@ -1,8 +1,6 @@
 """Korean (ko) messages for the 'doc_flow' surface."""
 MESSAGES: dict[str, str] = {
 
-    "flow_tool_desc": "[read-only] doc_flow(id) — doc flowLink 체인을 순서대로 렌더링 (여정 뷰).",
-
     "flow_help": (
         "doc_flow — doc 여정 뷰 (flowLink 체인)\n\n"
         "  doc_flow()            — 전체 flow 시작점 목록\n"
@@ -24,8 +22,6 @@ MESSAGES: dict[str, str] = {
     "branch_item": "- {title} [{id}]",
     "branch_item_broken": "- (끊어진 링크) [{id}]",
 
-
-    "map_tool_desc": "[read-only] doc_map(oneline) — 전체 doc 링크 네트워크 조감.",
 
     "map_help": (
         "doc_map — doc 링크 네트워크 조감\n\n"

@@ -5,6 +5,9 @@ MESSAGES: dict[str, str] = {
     "err_edits_invalid_json": "error: batch is not a valid JSON array.",
     "err_edits_not_array": "error: batch must be a JSON array.",
 
+
+    "err_action_unsupported": "{lid}: action='{action}' is not supported in batch — only overwrite (append is the default)",
+
     "link_post_failed": "  ⚠️ link({a}↔{b}) failed: {res}",
 
     "batch_summary": "{success}/{total}",

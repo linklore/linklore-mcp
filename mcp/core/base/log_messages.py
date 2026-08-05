@@ -12,6 +12,7 @@ LOG_MESSAGES: dict[str, str] = {
     "lore_reembed_failed": "re-embedding failed (%s) — semantic search may miss this item until next index update: %s",
     "tool_empty_response": "EMPTY %s → None/empty response",
     "embed_backend_missing": "fastembed not installed — semantic search disabled. pip install 'llre[embed]'",
+    "embed_legacy_absorb_failed": "legacy embedding cache absorb failed — falling back to lazy re-embedding",
     "embed_model_load_failed": "embedding model load failed (assuming transient, retry in %.0fs): %s",
     "login_stale_session_revoke_failed": "§5 session hygiene: failed to revoke old session — best-effort, login proceeds normally",
 }

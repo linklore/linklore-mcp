@@ -35,7 +35,7 @@ MESSAGES: dict[str, str] = {
         "- push(id='lr-x'|'dc-x')   a single item\n"
         "- push(id=['lr-x','dc-y'])  a batch\n"
         "Take down (inverse): rm(sent='lr-x'|'dc-x') — removes my server copy only, home base untouched.\n"
-        "(moving items between local workspaces is local(), not push())\n"
+        "(moving items between local workspaces is local_cross(), not push())\n"
     ),
     "push_help": (
         "[my server] push — home base → my server (visible to me only, like git push)\n"
@@ -43,7 +43,7 @@ MESSAGES: dict[str, str] = {
         "  push()            the whole home base\n"
         "  push(id='lr-x'|'dc-x')   a single item / push(id=['lr-x','dc-y']) a batch\n"
         "  Not sharing (sharing to an openbox = openbox(action='push')). Restore = pull. Take down from my server = rm(sent='lr-x'|'dc-x').\n"
-        "  (moving items between local workspaces is local(), not push())"
+        "  (moving items between local workspaces is local_cross(), not push())"
     ),
     "auto_connect_new_push": "⚠️ no connection found, auto-connected — a new space was created.\n",
     "auto_connect": "⚠️ no connection found, auto-connected.\n",
@@ -73,7 +73,7 @@ MESSAGES: dict[str, str] = {
         "\n"
         "- pull()            my whole server → home base\n"
         "- pull(id='lr-x'|'dc-x')   restore a selection\n"
-        "(moving items between local workspaces is local(), not pull())\n"
+        "(moving items between local workspaces is local_cross(), not pull())\n"
     ),
     "pull_help": (
         "[my server] pull — my server → home base restore (like git pull)\n"
@@ -82,7 +82,7 @@ MESSAGES: dict[str, str] = {
         "  Conflict: if local is newer/same it's skipped (no overwrite).\n"
         "  A real conflict (both sides changed) is shown separately with ⚠️ (local kept) — run push(id=...) to confirm.\n"
         "  Getting openbox footprints = openbox(action='pull').\n"
-        "  (moving items between local workspaces is local(), not pull())"
+        "  (moving items between local workspaces is local_cross(), not pull())"
     ),
     "auto_connect_new_pull": (
         "⚠️ no connection found, auto-connected — a new space was created"

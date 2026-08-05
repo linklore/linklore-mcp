@@ -69,7 +69,7 @@ back up / share       →  push() · openbox(…)      your server space · invi
 
 ## Available Tools
 
-22 tools. Call any of them with `help=True` for full usage.
+23 tools. Call any of them with `help=True` for full usage.
 
 | Category | Tool | What it does |
 | --- | --- | --- |

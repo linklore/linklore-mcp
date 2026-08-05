@@ -19,7 +19,7 @@ MESSAGES: dict[str, str] = {
         "- action='unpin' → unpin the session\n"
         "- action='sessions' → list/revoke your account sessions (revoke=)\n"
         "- action='projects' → list every LinkLore project on this machine\n"
-        "- action='delete_project' → permanently delete your personal-server copy of this project (2-step confirm)\n"
+        "- action='delete_project' → permanently delete your personal-server copy of this project (returns guidance, no execution — use the forced() command it prints)\n"
         "\n"
         "help=true for details."
     ),
@@ -66,7 +66,7 @@ MESSAGES: dict[str, str] = {
         "  config()                   current settings + external source summary\n"
         "  config(action='projects')  list of all LinkLore projects (alias: projects=true)\n"
         "  config(action='version')   check current mcp code version (git commit)\n"
-        "  config(action='delete_project', project_id=, confirm='<code>')  permanently delete a personal space (my server) - the first call returns a one-time confirm code - without project_id, targets the pinned/current project - use openbox(name=, action='delete') for openboxes"
+        "  config(action='delete_project', project_id=)  permanently delete a personal space (my server) - the first call only returns guidance (nothing executes) - to proceed, call the forced(action='config', delete_project=<id>) command it prints - without project_id, targets the pinned/current project - use openbox(name=, action='delete') for openboxes"
     ),
 
     "err_invalid_action": "error: unknown action '{action}'. valid: {valid} (or leave empty to show current settings). help=True.",
@@ -100,11 +100,7 @@ MESSAGES: dict[str, str] = {
     "session_line": "- {id}{marker}  created {created}  last used {last_used}  expires {expires}",
     "sessions_footer": "revoke: config(action='sessions', revoke='<id>') (single, immediate) · revoke='all' (all but current, needs confirm)",
     "sessions_revoke_all_desc": "revoke all sessions (except current)",
-    "sessions_revoke_all_confirm": (
-        "⚠️ this will revoke every active session on my account except the current one — unrecoverable.\n"
-        "  1. run it: config(confirm={slot})\n"
-        "  2. cancel: do nothing (expires in 15 min)"
-    ),
+    "sessions_revoke_all_confirm": "⚠️ this will revoke every active session on my account except the current one — unrecoverable.\nrun it: forced(action='config', sessions_revoke_all=True)",
 
     "no_sources": "no external sources registered",
     "src_list_header": "# external sources ({count})",
@@ -122,6 +118,9 @@ MESSAGES: dict[str, str] = {
     "forget_done": "[{name}] source unregistered - {where}",
 
     "settings_header": "# {name} settings",
+    "default_iam_line": "iam: {identity}",
+    "default_pin_line": "pin: {name}",
+    "pin_state_none": "none",
     "default_sources_summary": "\nexternal sources ({count}): {names}",
     "default_sources_detail_hint": "  details: config(action='sources')",
     "default_projects_hint": "all projects: config(projects=true)",
@@ -132,17 +131,14 @@ MESSAGES: dict[str, str] = {
     "delete_project_personal_label": "personal space",
     "err_delete_project_use_rm_openbox": "error: to delete an openbox, use openbox(name='{name}', action='delete') — config(action='delete_project') is personal-space only",
     "err_delete_project_no_target": "error: no target — pass project_id= directly, or pin this project first with config(action='pin') and retry (deletes the pinned/current project's personal space)",
+    "err_delete_project_no_personal_target": "error: the current project has no personal space on the server (never pushed) — push() first, or pass project_id= to target a different project",
     "err_delete_project_bad_ref": "error: project_id='{ref}' — pass prj-xxxxxxxx (shown by config(action='projects')) or a full UUID",
     "err_delete_project_ref_not_found": "error: no project matches '{ref}' — not in the address book or my memberships. check: config(action='projects')",
     "delete_project_ambiguous_header": "error: '{ref}' matches multiple projects — which one? (no auto-pick)",
     "delete_project_ambiguous_item": "  {n}. {label} ({prj}) → {cmd}",
     "candidates_more": "  … +{n} more",
     "delete_project_desc": "permanently delete personal space — {label} ({id})",
-    "delete_project_confirm_needed": (
-        "⚠️ this will permanently delete [{label}] ({id}) on the server — all lore/doc/members/invites gone, no recovery.\n"
-        "  1. run it: config(confirm={slot})\n"
-        "  2. cancel: do nothing (expires in 15 min)"
-    ),
+    "delete_project_confirm_needed": "⚠️ this will permanently delete [{label}] ({id}) on the server — all lore/doc/members/invites gone, no recovery.\nrun it: forced(action='config', delete_project='{prj_id}')",
     "err_delete_project_failed": "error: delete failed ({code}) - {body}",
     "delete_project_done": "[{label}] ({id}) permanently deleted on the server.",
 }

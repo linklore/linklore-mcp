@@ -16,7 +16,9 @@ from . import doc_rollup
 from . import link
 from . import cleanup
 from . import doctor
+from . import forced
 from . import local
+from . import market
 from . import openbox
 from . import personal
 from . import push_pull

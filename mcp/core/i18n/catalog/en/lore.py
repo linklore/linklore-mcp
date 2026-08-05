@@ -43,14 +43,6 @@ MESSAGES: dict[str, str] = {
 
     "no_changes": "No changes. Specify a field to modify.",
 
-    "overwrite_desc": "full body replace — {id}",
-    "overwrite_confirm": (
-        "⚠️ [{id}] preparing to fully replace the body — {old_len} existing chars gone.\n"
-        "  current first line: {first_line}\n"
-        "  1. run it: edit(confirm={slot})\n"
-        "  2. append instead (default, re-call without overwrite)"
-    ),
-
     "modify_replace_echo": (
         "\n  body fully replaced — old {old_len} chars → new {new_len} chars "
         "(old body preserved in lore_history, restore: log(id='{id}'))\n  ↳ {echo}"
@@ -94,4 +86,7 @@ MESSAGES: dict[str, str] = {
 
     "restore_already_active": "[{id}] already active (not in trash).",
     "restored": "[{id}] restored from trash",
+
+
+    "split_overflow_notice": "\n  body exceeded 1,500 chars — split into a new item: [{child_id}] '{child_title}'",
 }

@@ -39,7 +39,9 @@ MESSAGES: dict[str, str] = {
     "err_no_match": "'{label}' 매칭 doc 없음",
     "err_sort_invalid": "오류: sort='{sort}' 미지원 — {valid} 중 하나",
     "err_empty": "doc 없음 — add(type='doc', title='...')로 생성",
-    "limit_suffix": "\n  … 외 {n}건 (전체 {total}건) — 더: max={total}",
+
+
+    "limit_suffix": "\n  … 전체 {total}건 중 {shown}건 — 더: max={total}",
     "matched_header": "{n}건 매칭:",
 
     "files_label": "파일: {files}",

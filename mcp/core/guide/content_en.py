@@ -129,26 +129,26 @@ ITEMS = [
             "member (the same action as taking back a shared item — argument picks the branch), "
             "`delete` removes the whole box. `transfer` and `delete` are permanent — both "
             "ask for a second, identical call to confirm.\n\n"
-            "## local — operating on another local workspace directly\n\n"
-            "`local(action, id, to='workspace-path')` operates on a sibling local `.linklore/` "
+            "## local_cross — operating on another local workspace directly\n\n"
+            "`local_cross(action, id, to='workspace-path')` operates on a sibling local `.linklore/` "
             "store on the same disk — three actions:\n\n"
-            "- `local(action='move', id='lr-x', to='/path')` — relocate an item, preserving fields "
+            "- `local_cross(action='move', id='lr-x', to='/path')` — relocate an item, preserving fields "
             "like `createdAt`, `files`, `tags`, `status`, and body. The source is "
             "force-deleted, so it's a move, not a copy. For 2+ items it previews by default; call "
             "again with `confirm=True` to execute.\n"
-            "- `local(action='copy', id='lr-x', to='/path')` — same fields preserved, but the "
+            "- `local_cross(action='copy', id='lr-x', to='/path')` — same fields preserved, but the "
             "source is kept and a new id is issued with provenance recorded (source project + "
             "original id); re-copying the same original is an idempotent skip.\n"
-            "- `local(action='show', from_dir='/other', query=...)` — read-only lookup into a "
+            "- `local_cross(action='show', from_dir='/other', query=...)` — read-only lookup into a "
             "sibling workspace, same filters as `show()`; `from_dir` is required.\n\n"
             "**Boundary**: crossing to a server or an openbox is push/pull or `openbox()` — "
-            "`local()` never talks to a backend, it only moves data between `.linklore/` stores on "
+            "`local_cross()` never talks to a backend, it only moves data between `.linklore/` stores on "
             "your own disk.\n\n"
             "## config(action='pin') — switching your whole session to another project\n\n"
             "If you want every subsequent tool call in this session (not a single item) to default "
             "to a different project directory, `config(action='pin', dir='/path')` pins it for the "
             "rest of the process (session-only, not written to disk); `config(action='unpin')` "
-            "clears it. Reach for `local()` instead when you're moving, copying, or viewing one "
+            "clears it. Reach for `local_cross()` instead when you're moving, copying, or viewing one "
             "specific item rather than switching your whole working context."
         ),
         "tags": ["guide", "reference"],
@@ -175,7 +175,7 @@ ITEMS = [
             "| Record | `rm` | Delete — trash (recoverable) by default, `force=True` for permanent; "
             "`sent='lr-x'` takes an item down from your server copy |\n"
             "| Record | `restore` | Recover from trash; no `id` lists the trash |\n"
-            "| Record | `local` | Operate on a sibling local workspace — `action='move'\\|'copy'\\|'show'` "
+            "| Record | `local_cross` | Operate on a sibling local workspace — `action='move'\\|'copy'\\|'show'` "
             "(move/copy preserve fields; copy keeps the source) |\n"
             "| Search | `show` | Query by id/query-text/tag/status/file/period/`source_id=`; "
             "`action='graph'`(corpus stats) or `action='tags'`(tag list) |\n"
@@ -338,16 +338,16 @@ ITEMS = [
     {
         "kind": "lore",
         "key": "move-is-not-sync",
-        "title": "local() relocates/copies locally — it isn't push or openbox('push') in disguise",
+        "title": "local_cross() relocates/copies locally — it isn't push or openbox('push') in disguise",
         "body": (
-            "`local(action='move'|'copy', id, to='workspace-path')` moves or copies a lore/doc "
+            "`local_cross(action='move'|'copy', id, to='workspace-path')` moves or copies a lore/doc "
             "between your own local `.linklore/` stores, preserving fields like `createdAt`, "
             "`files`, `tags`, `status`, and body. `action='move'` force-deletes the "
             "source and preserves the id; `action='copy'` keeps the source and issues a new id — "
             "both record provenance (source project + original id), and re-copying the same "
             "original is an idempotent skip. Neither talks to a server "
             "or an openbox. Getting a copy onto another machine is push/pull; getting it into a "
-            "team space is `openbox(action='push')` — neither is local()."
+            "team space is `openbox(action='push')` — neither is local_cross()."
         ),
         "tags": ["guide", "workflow"],
     },
@@ -356,7 +356,7 @@ ITEMS = [
         "key": "multi-item-move-previews",
         "title": "Moving or copying 2+ items previews by default",
         "body": (
-            "`local(action='move'|'copy', ...)` runs immediately for a single item (low risk), but "
+            "`local_cross(action='move'|'copy', ...)` runs immediately for a single item (low risk), but "
             "for two or more items it defaults to a preview only — nothing executes until you call "
             "it again with `confirm=True`. That asymmetry exists specifically to prevent an "
             "accidental bulk relocation-and-delete."

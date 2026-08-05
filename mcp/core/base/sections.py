@@ -42,7 +42,7 @@ def _norm_query(s: str) -> str:
     return s.lstrip("#").strip().casefold()
 
 
-def _find_section(sections: list[dict], query: str) -> tuple[dict | None, str]:
+def _find_section(sections: list[dict], query: str, *, read: bool = False) -> tuple[dict | None, str]:
     q = _norm_query(query)
 
     def _fmt(items: list[dict]) -> str:
@@ -60,7 +60,12 @@ def _find_section(sections: list[dict], query: str) -> tuple[dict | None, str]:
     if len(sub) > 1:
         return None, _msg("sections.ambiguous", candidates=_fmt(sub))
 
-    return None, _msg("sections.not_found", sections=_fmt(sections))
+
+    if not sections:
+        return None, _msg("sections.not_found_no_headings_read" if read
+                          else "sections.not_found_no_headings")
+    return None, _msg("sections.not_found_read" if read else "sections.not_found",
+                      sections=_fmt(sections))
 
 
 def replace_section(body: str, query: str, new_content: str) -> tuple[str | None, str]:

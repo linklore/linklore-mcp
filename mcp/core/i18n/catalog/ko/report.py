@@ -1,9 +1,5 @@
 """Korean (ko) messages for the 'report' surface."""
 MESSAGES: dict[str, str] = {
-    "tool_desc": (
-        "report(msg) — 피드백/버그를 LinkLore 팀에 바로 전송. 로그인 여부와 무관하게 항상 동작 "
-        "(로그인돼 있으면 자동으로 iam이 함께 첨부됨, 강제 아님)."
-    ),
     "help": (
         "report(msg)\n"
         "  피드백/버그를 팀에 바로 전송 — 익명도 가능(로그인 불요).\n"

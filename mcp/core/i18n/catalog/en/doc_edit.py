@@ -141,6 +141,9 @@ MESSAGES: dict[str, str] = {
     ),
 
 
+    "batch_action_unsupported": "{wid}: action='{action}' is not supported in batch — only overwrite/remove (append is the default)",
+
+
     "toggle_success_header": "[{id}] {title}  ({done} of {total} done)",
     "toggle_collapsed_note": "\n  ({total} total — show(query='{id}') for detail)",
 
@@ -155,20 +158,18 @@ MESSAGES: dict[str, str] = {
     "err_id_required": "error: id is required — edit(id='dc-xxx', ...)",
     "err_no_changes": "error: nothing to change.",
     "err_not_found_edit": "error: doc '{id}' not found.",
-
-    "overwrite_desc": "full body replace — {id}",
-    "overwrite_confirm": (
-        "⚠️ [{id}] preparing to fully replace the body — {old_len} existing chars gone.\n"
-        "  current first line: {first_line}\n"
-        "  1. run it: edit(confirm={slot})\n"
-        "  2. append instead (default, re-call without overwrite)"
-    ),
     "replace_echo": (
         "\n  body fully replaced — old {old_len} chars → new {new_len} chars "
         "(old body preserved in doc_history, recover: log(id='{id}'))\n  ↳ {echo}"
     ),
     "append_echo": "\n  body(append) — appended +{appended_len} chars after existing {old_len} chars\n  ↳ {echo}",
     "auto_checked_echo": "\n  {n} item(s) auto-checked (status=done)",
+
+
+    "stale_append_notice": (
+        "the body is now {length} chars and it's been {days} day(s) since the last edit — "
+        "check for stale content or consider splitting it up."
+    ),
 
 
     "edit_batch_help": (

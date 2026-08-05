@@ -123,16 +123,15 @@ MESSAGES: dict[str, str] = {
 
     "rm_member_help": (
         "openbox(name='<box>', action='rm', member='<nickname or email>')\n"
-        "  Owner removes a member. Revokes the token. Two-step confirm\n"
-        "  (re-call openbox(confirm=<number>) alone with the number the first response gives you).\n"
+        "  Owner removes a member. Revokes the token. Unrecoverable — only runs via the\n"
+        "  forced(action='openbox', rm_member=..., pid=...) call the first response prints.\n"
         "  The removed member's lore data stays in the box (option a).\n"
         "  member= also accepts a list (batch) — each result is reported separately, no full rollback on partial failure."
     ),
     "rm_member_desc": "remove member(s) — {name}: {members}",
     "rm_member_confirm": (
         "⚠️ [{name}] remove member(s): {members} — revokes their token (lore data stays).\n"
-        "  1. run it: openbox(confirm={slot})\n"
-        "  2. cancel: do nothing (expires in 15 min)"
+        "  run: forced(action='openbox', rm_member={ids}, pid='{prj_id}')\n"
     ),
     "remove_err_failed": "error: member removal failed ({code}) — {resp}",
     "remove_done": "[{name}] removed member {member_id} — token revoked. lore data remains.",
@@ -205,6 +204,9 @@ MESSAGES: dict[str, str] = {
     "err_generic": "error: {error}",
 
 
+    "err_max": "error: {err}",
+
+
     "register_err_url_not_ascii": (
         "error: url contains non-ASCII characters — copy the box address exactly and retry\n"
         "  (a backend address is ASCII only, e.g. https://api.linklore.io/api/projects/<pid>)"
@@ -239,15 +241,14 @@ MESSAGES: dict[str, str] = {
 
     "transfer_help": (
         "openbox(name='<box>', action='transfer', member='<new owner nickname or email>')\n"
-        "  Transfer owner rights. You are demoted to member. Two-step confirm\n"
-        "  (re-call openbox(confirm=<number>) alone with the number the first response gives you)."
+        "  Transfer owner rights. You are demoted to member. Unrecoverable — only runs via the\n"
+        "  forced(action='openbox', transfer=..., pid=...) call the first response prints."
     ),
     "transfer_desc": "transfer owner — {name} -> {member}",
     "transfer_confirm": (
         "⚠️ transfer owner of [{name}] to {member_id} — you will be demoted to member and\n"
         "  the new owner must transfer it back to undo this.\n"
-        "  1. run it: openbox(confirm={slot})\n"
-        "  2. cancel: do nothing (expires in 15 min)"
+        "  run: forced(action='openbox', transfer='{resolved}', pid='{prj_id}')\n"
     ),
     "transfer_err_failed": "error: transfer failed ({code}) — {resp}",
     "transfer_done": "[{name}] owner → member ({member_id})\n  you are now a member.",
@@ -263,14 +264,13 @@ MESSAGES: dict[str, str] = {
     "leave_desc": "leave — {name}",
     "leave_confirm": (
         "⚠️ leave openbox '{name}'? You can't come back without a new invite.\n"
-        "  1. run it: openbox(confirm={slot})\n"
-        "  2. cancel: do nothing (expires in 15 min)"
+        "  run: forced(action='openbox', leave='{prj_id}')\n"
     ),
     "leave_confirm_owner_hint": (
         "⚠️ leave openbox '{name}'? You can't come back without a new invite.\n"
         "  ℹ️ Local records suggest you are this box's owner — if so, the server will reject this (owners can't\n"
         "     leave; if you already transferred it, ignore this hint — local records can lag).\n"
-        "  1. try anyway: openbox(confirm={slot})\n"
+        "  1. try anyway: forced(action='openbox', leave='{prj_id}')\n"
         "  2. alternative (this is the real fix if you're owner): "
         "openbox(name='{name}', action='transfer', member='<new owner nickname>')"
     ),
@@ -289,7 +289,7 @@ MESSAGES: dict[str, str] = {
     "push_preview_header": "[{name}] push preview — {count} items (nothing sent yet)",
     "push_preview_missing": "  ⚠️ not in this project: {ids}",
     "push_desc": "push {count} items — {name}",
-    "push_preview_confirm": "  1. run it: openbox(confirm={slot})\n  2. cancel: do nothing (expires in 15 min)",
+    "push_forced_hint": "  run: forced(action='openbox', push={ids}, pid='{pid}')",
     "pull_err_no_id": "error: id= is required — footprint ids to absorb. To browse/refresh the cache only: openbox(name='{name}', action='show')",
     "pull_header": "[{name}] pulled {count} items — absorbed with new ids (provenance kept)",
     "pull_more": "  ... and {count} more",
@@ -307,10 +307,12 @@ MESSAGES: dict[str, str] = {
 
     "tool_desc": (
         "openbox(name, action) — the owner wall: every exchange with other owners (share, absorb, membership) goes through this single gate. "
-        "An openbox is an invite-only shared box. Your own server backup is push()/pull() (no target argument — never crosses the wall).\n"
+        "An openbox is an invite-only shared box. Your own server backup is push()/pull() (no target argument — never crosses the wall). "
+        "Moving or copying into another LOCAL project you also own (same disk, no server round-trip) goes through local_cross(), not openbox — "
+        "lighter and faster when ownership isn't in question.\n"
         "\n"
         "transport:\n"
-        "- openbox(name='team-prj', action='push', id='lr-x')     share footprints to the box — sends copies, your project unchanged. 2+ ids: preview first, re-call with confirm=True\n"
+        "- openbox(name='team-prj', action='push', id='lr-x')     share footprints to the box — sends copies, your project unchanged. 2+ ids: preview first, re-call with forced(action='openbox', push=...)\n"
         "- openbox(name='team-prj', action='pull', id='lr-x')     absorb the box's footprints into your project — new id + provenance\n"
         "- openbox(name='team-prj', action='rm', id='lr-x')       remove what I shared from the box (your project unchanged)\n"
         "browse:\n"
@@ -328,7 +330,7 @@ MESSAGES: dict[str, str] = {
     "help": (
         "openbox(name, action) — the owner wall (an openbox is an invite-only shared box)\n"
         "transport/browse:\n"
-        "  push      openbox(name='team-prj', action='push', id='lr-x')             share to the box (copies, your project unchanged; 2+ ids: preview→confirm=True)\n"
+        "  push      openbox(name='team-prj', action='push', id='lr-x')             share to the box (copies, your project unchanged; 2+ ids: preview→forced(action='openbox', push=...))\n"
         "  pull      openbox(name='team-prj', action='pull', id='lr-x')             absorb into your project (new id + provenance)\n"
         "  rm        openbox(name='team-prj', action='rm', id='lr-x')               remove what I shared from the box — or action='rm', member='<nickname/email>' to expel a member (owner). exactly one of id=/member=\n"
         "  show      openbox(name='team-prj', action='show', query='auth')          browse (cache auto-refresh; filters query·tag·max·oneline)\n"

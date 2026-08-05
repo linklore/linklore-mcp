@@ -30,6 +30,7 @@ MESSAGES: dict[str, str] = {
     "err_supersede_type_mismatch": "오류: supersede 는 같은 타입끼리만 — lore↔lore 또는 doc↔doc",
     "err_supersede_self": "오류: 자기 자신으로 supersede 불가",
     "err_supersede_target_missing": "오류: 대체 대상 '{b}' 가 존재하지 않습니다 (phantom supersede 방지).",
+    "err_supersede_cycle": "오류: {a} → {b} 는 supersede 순환을 만듭니다 — {b} 가 이미 (연쇄적으로) {a} 로 되돌아갑니다. 둘 다 그대로입니다.",
     "supersede_done": (
         "[{a}] 폐기(dropped) + 대체 → [{b}]\n"
         "  대체본 있는 dropped = 자동 검색제외 (head=False). show(superseded=True)·show(query=) 로 보임.\n"
@@ -45,22 +46,8 @@ MESSAGES: dict[str, str] = {
     "unlinked_file": "{title} ↮ {file}\n연결 해제됨 (파일)",
 
 
-    "link_desc": (
-        "link(a, b, action=) — 두 항목 연결 (dc↔dc / lr↔lr / dc↔lr 자동 판별, prefix 매칭 OK).\n"
-        "a/b 중 한쪽에 파일경로·기존 제목도 OK — id 꼴이 아니면 자동분류(add/edit 의 links= 와 동일).\n"
-        "해제(역연산) = unlink(a, b) — 동일 인자.\n"
-        "\n"
-        "action 5갈래 (member/config(action=) 관례 확장):\n"
-        "- action='related' (기본, 미지정도 동일) → 상호 연결(대칭). link(a, b) 와 동일 — dc↔dc/lr↔lr/dc↔lr\n"
-        "- action='flow'    → 상호연결 아니라 **문서 순서**(a→b 방향, doc↔doc 전용): a 다음 b 로 읽는 여정.\n"
-        "- action='supersede' → \"a가 b로 대체된다\" — a=old(폐기, head=False/dropped), b=target(생존,\n"
-        "                        기존 항목이어야 함 — 새로 안 만듦). lore↔lore 또는 doc↔doc만.\n"
-        "- action='unrelated' → 판정: 관련 없음 — 이 쌍은 관련 후보·중복 경보에 재제안 안 함 (링크 아님, 판정 저장).\n"
-        "- action='distinct'  → 판정: 중복 아님(별개 확정) — 중복 경보만 억제, 관련 후보로는 계속 등장.\n"
-        "\n"
-        "제안 판정 4종 프레임: 관련 맞음=link(a,b) · 중복 맞음=action='supersede' · "
-        "관련 없음=action='unrelated' · 중복 아님=action='distinct'\n"
-    ),
+    "err_multi_value": "오류: a=/b=는 단일 id/파일/제목만 지원합니다 — 여러 쌍을 연결하려면 link()를 반복 호출하세요.",
+
     "link_help": (
         "link — 두 항목 연결 (ID prefix 자동 판별)\n"
         "\n"
@@ -116,9 +103,8 @@ MESSAGES: dict[str, str] = {
     "verdict_not_found": "판정 없음: {a} — {b} ({action}) (이미 해제 상태)",
     "err_unrecognized_id": "오류: 인식할 수 없는 ID — a={a} ({a_col}), b={b} ({b_col})",
     "err_flow_link_only": "오류: flow는 doc↔doc(dc-* 양쪽)만 지원",
+    "err_flow_cycle": "오류: {a} → {b} 는 순환을 만듭니다 — doc 여정은 선형 체인만 지원(루프 불가). 체인은 그대로입니다.",
 
-
-    "unlink_desc": "unlink(a, b, action=) — 두 항목 연결 해제 또는 판정 해제. link()와 대칭(action='' 기본|'flow'|'unrelated'|'distinct', 파일경로도 동일하게 받음).",
     "unlink_help": (
         "unlink — 연결 해제 (link와 대칭)\n"
         "\n"

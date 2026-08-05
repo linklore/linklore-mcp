@@ -7,6 +7,10 @@ MESSAGES: dict[str, str] = {
     "err_no_id": "오류: ID를 입력하세요.",
     "err_not_found_empty": "'{id}'를 찾을 수 없습니다 — 아직 이 프로젝트에 기억이 없습니다.",
     "err_not_found": "오류: '{id}'를 찾을 수 없습니다.",
+
+
+    "id_didyoumean_item": "show(query='{id}')  # {title}",
+    "id_didyoumean_suffix": " 혹시: {items}",
     "hint_token": "'{term}' {count}건",
     "common_word_hint": "ℹ️ 흔한 단어가 매칭을 채웠습니다 — {parts} 등장. 특징적인 단어를 1–2개 추가하면 좁혀집니다.\n\n",
     "no_exact_match_suggestions": "'{query}' 정확한 매칭 없음. 연관도 순 추천:",

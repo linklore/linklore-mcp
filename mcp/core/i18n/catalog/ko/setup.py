@@ -1,17 +1,6 @@
 """Korean (ko) messages for the 'setup' surface."""
 MESSAGES: dict[str, str] = {
 
-
-    "tool_desc": (
-        "init(blueprint='') — 이 디렉토리에 .linklore 셋업 (로컬 발자취 메모리 시작).\n"
-        "\n"
-        "- init()              기본 셋업\n"
-        "- init(blueprint='X') 블루프린트 적용\n"
-        "\n"
-        "project_dir: 다른 폴더에 셋업 (경계 생성은 init 전용). 셋업해도 이 세션의 기준 프로젝트는 "
-        "안 바뀜 — 이어서 작업하려면 config(action='pin').\n"
-    ),
-
     "help": (
         "init — .linklore 로컬 셋업\n\n"
         "  init()              기본\n"

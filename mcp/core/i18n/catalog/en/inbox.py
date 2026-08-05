@@ -18,5 +18,12 @@ MESSAGES: dict[str, str] = {
 
     "err_session_expired": "session expired (401) — re-login: uvx llre login",
 
+
+    "err_not_found_on_server": (
+        "openbox '{name}' is gone from the server (deleted by the owner, or stale). "
+        "The cached copy is left as-is. To clear the local registration, run "
+        "openbox(name='{name}', action='undocking')."
+    ),
+
     "revoked": "remote/{pid}/ revoked — publication withdrawn, cleared",
 }

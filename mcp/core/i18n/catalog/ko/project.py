@@ -1,13 +1,6 @@
 """Korean (ko) messages for the 'project' surface."""
 MESSAGES: dict[str, str] = {
 
-    "tool_desc": (
-        "프로젝트 대시보드 — 세션 시작 시 필수 호출.\n"
-        "\n"
-        "외부 source 🔔 = 새 push 도착. openbox(action='show')로 수신.\n"
-        "옵션: dismiss(넛지 끄기), undismiss(복원), help."
-    ),
-
     "help": (
         "brief — 프로젝트 대시보드\n\n"
         "세션 시작 시 호출. 기능 목록 + lore 통계 + stale 감지 + 최근 활동.\n"

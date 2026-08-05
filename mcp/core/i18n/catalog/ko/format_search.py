@@ -26,18 +26,7 @@ MESSAGES: dict[str, str] = {
     "doc_files_bracket": " [{files}]",
     "no_match_footer": "매칭 결과 없음 — 키워드를 바꿔 다시 검색하세요.",
     "resolved_hint_footer": '정리된(폐기·대체) lore까지 보려면 status="dropped"를 사용하세요.',
-    "topic_current_state_doc": "doc **{name}** 참조 (최신 정리 문서)",
-    "topic_current_state_lore": "{first_line} [{id}]",
-    "topic_header": "# {query} — topic",
-    "topic_state_line": "> **현재 상태:** {state}",
-    "topic_count_lore": "lore {count}건 매칭",
-    "topic_count_doc": "doc {count}건",
-    "topic_doc_section_header": "## doc (현재 상태)",
-    "topic_doc_title": "### [{cat}] {name}",
-    "topic_related_docs_header": "**관련 문서:**",
-    "topic_related_doc_item": "- [{cat}] {name}",
-    "topic_timeline_header": "## timeline (이력)",
-    "topic_no_date": "(날짜 없음)",
-    "topic_date_header": "\n### {date}",
-    "topic_body_more": "  ... (+{count}줄)",
+
+
+    "broad_query_time_hint": "\n  시간순 전개: show(query='{query}', sort='oldest')",
 }

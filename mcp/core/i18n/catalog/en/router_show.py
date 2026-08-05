@@ -3,7 +3,7 @@ MESSAGES: dict[str, str] = {
 
 
     "tool_desc": (
-        "[read-only] show() — target/scope: query·type / filters: tag·status·file·period('Nh' hours|'Nd' days|'YYYY-MM-DD' UTC)·source_id / "
+        "[read-only] show() — search or find lore/doc. target/scope: query·type / filters: tag·status·file·period('Nh' hours|'Nd' days|'YYYY-MM-DD' UTC|'YYYY-MM-DD..YYYY-MM-DD' range)·source_id / "
         "result shape: sort·max·oneline·superseded / mode: action / plumbing: help. "
         "Before editing code, check file=path for related lore/doc — a direct Edit/Write auto-surfaces this via a PreToolUse hook, but check it yourself before delegating. "
         "show/rm stay inside my own project — to browse an openbox, use openbox(action='show')"
@@ -13,7 +13,7 @@ MESSAGES: dict[str, str] = {
         "[read-only] log(id) — shows the edit-history timeline (who changed what, when). "
         "No id = project-wide history. For current content use show(); for code<->doc "
         "drift use status(). "
-        "period('Nh' hours|'Nd' days|'YYYY-MM-DD' UTC), sort=oldest, max, plumbing: help"
+        "period('Nh' hours|'Nd' days|'YYYY-MM-DD' UTC|'YYYY-MM-DD..YYYY-MM-DD' range), sort=oldest, max, plumbing: help"
     ),
 
     "help": (
@@ -23,6 +23,7 @@ MESSAGES: dict[str, str] = {
         "  query=ID+words mixed → ID match pinned on top + keyword results (a typo'd ID only gets a hint, never pollutes the keywords)\n"
         "  query=text → unified search (lore+doc)\n"
         "  type=collection → listing (lore/doc)\n"
+        "  section=heading → read one section fragment (query=id only, no other filter)\n"
         "  (none) → lore listing (self + auto_search external openbox merged)\n\n"
         "## Filters (tag, status, file, period, source_id)\n"
         "  tag, status(open/done/dropped/rule)\n"
@@ -34,6 +35,7 @@ MESSAGES: dict[str, str] = {
         "## Result shape (sort, max, oneline, superseded)\n"
         "  sort: sort(newest/oldest/alpha), max(N items), oneline(one line each)\n"
         "  for a detail view, max= caps how many clusters are shown (default 10, in listing mode it's the item-count cap as before)\n"
+        "  default counts: the no-filter overview (lore+doc summary) shows 10 of each · a filtered listing (e.g. tag=) shows 30 (override with max=)\n"
         "  other: superseded=True → include old lore and doc versions\n\n"
         "## Mode (action)\n"
         "  action='graph' → corpus audit aggregation (status/tag/body-length/link-graph distribution, exhaustive counts)\n"
@@ -55,9 +57,18 @@ MESSAGES: dict[str, str] = {
 
     "err_action_invalid": "error: action='{action}' is not supported — use one of graph|tags",
 
+
+    "err_section_combo": (
+        "error: section= requires query=(id) and no other filter — "
+        "remove type/tag/status/file/period/sort/max/oneline/superseded/action/source_id"
+    ),
+
     "err_sort_invalid": "error: sort='{sort}' is not supported — use one of {valid}",
 
     "err_period": "error: {err}",
+
+
+    "err_max": "error: {err}",
 
     "empty_project": (
         "no results — this project has no memory yet.\n"
@@ -88,6 +99,9 @@ MESSAGES: dict[str, str] = {
     "tags_count_doc": "doc {n}",
     "tags_line": "- #{tag} ({counts})",
 
+
+    "tags_truncated_hint": "\n  … {shown} of {total} shown — more: max={total}",
+
     "lore_none": "no lore registered.",
     "lore_filtered_none": "no lore matches the filter. {total} total.",
     "lore_oneline_header": "lore ({shown}/{total})",
@@ -95,9 +109,15 @@ MESSAGES: dict[str, str] = {
     "lore_header": "# lore ({shown}/{total})",
     "lore_cluster_suffix_full": "  +{n} clustered (show(query=) for all)",
 
+
+    "lore_date_header": "\n### {date}",
+
     "lore_cluster_suffix_full_openbox": "  +{n} clustered (openbox(action='show', query=...) for all)",
 
     "list_truncated_hint": "\n  … {shown} of {total} shown — more: max={total}",
+
+
+    "list_truncated_hint_clustered": "\n  … {shown} of {total} shown ({collapsed} rows after cluster folding) — more: max={collapsed}",
 
     "log_no_history": (
         "'{id}' has no change history — history tracking is lore(supersede chain + body edit history)·"
@@ -109,4 +129,7 @@ MESSAGES: dict[str, str] = {
 
 
     "mixed_id_miss": "note: {hint}",
+
+
+    "doc_match_hint": "\n  {n} matching doc(s) — show({cmd})",
 }

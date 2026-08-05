@@ -138,6 +138,9 @@ MESSAGES: dict[str, str] = {
     ),
 
 
+    "batch_action_unsupported": "{wid}: action='{action}' 은 배치에서 미지원 — overwrite/remove만 가능(append는 기본값)",
+
+
     "toggle_success_header": "[{id}] {title}  ({total}개 중 {done} 완료)",
     "toggle_collapsed_note": "\n  (전체 {total}개 — show(query='{id}')로 상세)",
 
@@ -152,20 +155,18 @@ MESSAGES: dict[str, str] = {
     "err_id_required": "오류: id 필수 — edit(id='dc-xxx', ...)",
     "err_no_changes": "오류: 변경할 내용이 없습니다.",
     "err_not_found_edit": "오류: doc '{id}'를 찾을 수 없습니다.",
-
-    "overwrite_desc": "body 전체 교체 — {id}",
-    "overwrite_confirm": (
-        "⚠️ [{id}] body 전체 교체 준비 — 기존 {old_len}자 소멸.\n"
-        "  현재 첫 줄: {first_line}\n"
-        "  1. 실행: edit(confirm={slot})\n"
-        "  2. 덧붙이기(기본, overwrite 없이 재호출)"
-    ),
     "replace_echo": (
         "\n  body 전체 교체 — 옛 {old_len}자 → 새 {new_len}자 "
         "(옛 본문 doc_history 보존, 복구: log(id='{id}'))\n  ↳ {echo}"
     ),
     "append_echo": "\n  body(append) — 기존 {old_len}자 뒤에 +{appended_len}자\n  ↳ {echo}",
     "auto_checked_echo": "\n  items {n}건 자동 체크 (status=done)",
+
+
+    "stale_append_notice": (
+        "현재 본문이 {length}자이고 마지막 수정 후 {days}일 지났습니다 — "
+        "오래된 내용이 있는지 확인하거나 필요시 분리를 고려하세요."
+    ),
 
 
     "edit_batch_help": (

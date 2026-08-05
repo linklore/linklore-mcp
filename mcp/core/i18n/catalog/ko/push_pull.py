@@ -26,24 +26,13 @@ MESSAGES: dict[str, str] = {
     "not_found_header": "  서버에 없음 {count}건: {ids}",
 
 
-    "push_desc": (
-        "[my server] push(id) — 본진을 **내 서버**에 올림 (나만 봄). git push 처럼 로컬→서버.\n"
-        "공유 아님 — 타인 공유(오픈박스)는 push 아니라 openbox(action='push')"
-        " (push 는 설계상 타겟 인자가 없어 공유가 불가능).\n"
-        "\n"
-        "- push()            본진 전체 → 서버\n"
-        "- push(id='lr-x'|'dc-x')   1건\n"
-        "- push(id=['lr-x','dc-y'])  배치\n"
-        "내리기(역연산): rm(sent='lr-x'|'dc-x') — 내 서버 사본만 내림, 본진 무변.\n"
-        "(로컬 워크스페이스끼리 항목 이동은 push 아니라 local())\n"
-    ),
     "push_help": (
         "[my server] push — 본진 → 내 서버 (나만 봄, git push 개념)\n"
         "\n"
         "  push()            본진 전체\n"
         "  push(id='lr-x'|'dc-x')   1건 / push(id=['lr-x','dc-y']) 배치\n"
         "  공유 아님 (오픈박스에 공유 = openbox(action='push')). 복원 = pull. 내 서버 내리기 = rm(sent='lr-x'|'dc-x').\n"
-        "  (로컬 워크스페이스끼리 항목 이동은 push 아니라 local())"
+        "  (로컬 워크스페이스끼리 항목 이동은 push 아니라 local_cross())"
     ),
     "auto_connect_new_push": "⚠️ 연결이 없어 자동 connect 했습니다 — 새 공간이 생성됨.\n",
     "auto_connect": "⚠️ 연결이 없어 자동 connect 했습니다.\n",
@@ -66,15 +55,6 @@ MESSAGES: dict[str, str] = {
     ),
 
 
-    "pull_desc": (
-        "[my server] pull(id) — 내 서버에서 본진 복원 (다른 기기서도). git pull 처럼 서버→로컬.\n"
-        "오픈박스(공유)에서 가져오기는 pull 아니라 openbox(action='pull') — pull 은 내 서버 전용.\n"
-        "로컬이 최신/동일이면 skip, 양쪽 다 수정된 진짜 충돌은 별도 표시(로컬 유지).\n"
-        "\n"
-        "- pull()            내 서버 전체 → 본진\n"
-        "- pull(id='lr-x'|'dc-x')   선택 복원\n"
-        "(로컬 워크스페이스끼리 항목 이동은 pull 아니라 local())\n"
-    ),
     "pull_help": (
         "[my server] pull — 내 서버 → 본진 복원 (git pull 개념)\n"
         "\n"
@@ -82,7 +62,7 @@ MESSAGES: dict[str, str] = {
         "  충돌: 로컬이 최신/동일이면 skip (overwrite 안 함).\n"
         "  양쪽 다 수정된 진짜 충돌은 별도 ⚠️ 표시(로컬 유지) — 확정하려면 push(id=...).\n"
         "  오픈박스 발자취 가져오기 = openbox(action='pull').\n"
-        "  (로컬 워크스페이스끼리 항목 이동은 pull 아니라 local())"
+        "  (로컬 워크스페이스끼리 항목 이동은 pull 아니라 local_cross())"
     ),
     "auto_connect_new_pull": (
         "⚠️ 연결이 없어 자동 connect 했습니다 — 새 공간이 생성됨"

@@ -1,8 +1,6 @@
 """Korean (ko) messages for the 'cleanup' surface."""
 MESSAGES: dict[str, str] = {
 
-    "tool_desc": "[read-only] cleanup(type='lore'|'doc') threshold(=0.85), status(=open), help — 중복 후보.",
-
     "help": (
         "cleanup — 강한 중복 lore/doc 후보 표시\n"
         "\n"
