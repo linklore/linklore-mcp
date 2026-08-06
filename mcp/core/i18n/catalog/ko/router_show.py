@@ -9,7 +9,7 @@ MESSAGES: dict[str, str] = {
         "  query=텍스트 → 통합 검색 (lore+doc)\n"
         "  type=컬렉션 → 목록 (lore/doc)\n"
         "  section=헤딩 → 섹션 조각 하나만 읽기 (query=id 단독, 다른 필터 결합 불가)\n"
-        "  (없음) → lore 목록 (자기 + auto_search 외부 openbox 머지)\n\n"
+        "  (없음) → lore+doc 조감 (각 10건, max= 로 오버라이드)\n\n"
         "## 필터 (tag, status, file, period, source_id)\n"
         "  tag, status(open/done/dropped/rule)\n"
         "  file(경로 매칭, files[] 인덱스 기준) — 코드 편집 전 확인 권장. 직접 Edit/Write 시엔 PreToolUse 훅이 자동 서빙하지만,\n"

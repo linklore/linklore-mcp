@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "linklore",
   "displayName": "LinkLore",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "AI-native structured memory for agents (lore/doc) for Claude Code. This plugin is a free distribution channel for the LinkLore MCP server; team sync, cross-project sharing, and cloud backup are a paid backend service (subscription) at linklore.io.",
   "author": {
     "name": "LinkLore",
