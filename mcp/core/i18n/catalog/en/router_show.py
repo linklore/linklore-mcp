@@ -24,7 +24,7 @@ MESSAGES: dict[str, str] = {
         "  query=text → unified search (lore+doc)\n"
         "  type=collection → listing (lore/doc)\n"
         "  section=heading → read one section fragment (query=id only, no other filter)\n"
-        "  (none) → lore listing (self + auto_search external openbox merged)\n\n"
+        "  (none) → lore+doc overview (10 of each, override with max=)\n\n"
         "## Filters (tag, status, file, period, source_id)\n"
         "  tag, status(open/done/dropped/rule)\n"
         "  file(path match, against the files[] index) — check before editing code. A direct Edit/Write auto-surfaces\n"
